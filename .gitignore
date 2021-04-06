@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+yield-cli/
+venv/
+my_venv/
+.idea/
+.vscode/
+.envrc
