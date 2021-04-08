@@ -1,7 +1,7 @@
-[![Upload Python Package](https://github.com/punparin/defy-cli/actions/workflows/python_publish.yaml/badge.svg)](https://github.com/punparin/defy-cli/actions/workflows/python_publish.yaml)
+[![Upload Python Package](https://github.com/punparin/defy-cli/actions/workflows/python_publish.yaml/badge.svg)](https://github.com/punparin/defy-cli/actions/workflows/python_publish.yaml) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # DeFy CLI
-is a CLI to lookup for balance on wallet and DeFi platform on blockchain network
+is a command line tool to lookup wallet and DeFi platforms balance on blockchain network
 
 <!-- toc -->
 
@@ -25,27 +25,34 @@ Total Balance: $2348.17
 ```
 
 ## Prerequisite
-- Python >= 3.6
 - [BscScan API Key](https://bscscan.com/myapikey)
-  
   `export bscscan_api_key=<API_KEY>`
 
 ## Installation
-`pip install -r requirements.txt`
+`pip install defy`
 
-## Limitation
-Currently only support Binance Smart Chain Mainnet
+## Support Platforms
+
+| Platform  | Features | Support |
+|-----------|----------|---------|
+| DefiValue | vSafe    |   ✅   |
+
+## Support Network
+
+| Network  | Support |
+|-----------|---------|
+| BSC Mainnet |  ✅   |
 
 ## Commands
 
-### `py main.py --address <ADDRESS>`
+### `defy --address <ADDRESS>`
 
 ```
 USAGE
-  $ py main.py
+  $ defy
 
 OPTIONS
-  -f,   --address <ADDRESS>   wallet address
+  -a,   --address <ADDRESS>   wallet address
   -h,   --help                show help menu
   -hsb, --hide-small-bal      hide token which has small balance
 ```
