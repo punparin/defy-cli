@@ -6,6 +6,12 @@ from platforms.ValueDefi import ValueDefi
 
 __author__ = "Parin Kobboon"
 
+
+priceFinder = PriceFinder()
+
+wallet = Wallet(priceFinder)
+valueDefi = ValueDefi(priceFinder)
+
 @click.command()
 @click.option("-a", "--address", type=str, required=True, help="Your wallet address")
 @click.option("-hsb", "--hide-small-bal", "hideSmallBal", is_flag=True, default=False, help="`True` to hide small balance in wallet, default=false")
@@ -18,11 +24,3 @@ def cli(address, hideSmallBal):
     wallet.displayWallet(walletBal)
     valueDefi.displayPlatformFarms(valueDefiBal)
     displayTotal(total)
-
-if __name__ == '__main__':
-    priceFinder = PriceFinder()
-
-    wallet = Wallet(priceFinder)
-    valueDefi = ValueDefi(priceFinder)
-
-    cli()
