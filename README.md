@@ -1,3 +1,5 @@
+[![Upload Python Package](https://github.com/punparin/defy-cli/actions/workflows/python_publish.yaml/badge.svg)](https://github.com/punparin/defy-cli/actions/workflows/python_publish.yaml)
+
 # DeFy CLI
 is a CLI to lookup for balance on wallet and DeFi platform on blockchain network
 

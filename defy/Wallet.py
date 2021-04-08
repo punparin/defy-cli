@@ -1,8 +1,8 @@
 from configparser import SafeConfigParser
 from web3 import Web3
 from tabulate import tabulate
-from Utilities import *
-from PriceFinder import PriceFinder
+from defy.Utilities import Utilities
+from defy.PriceFinder import PriceFinder
 import requests
 import json
 import os
@@ -26,7 +26,7 @@ class Wallet:
     def getTokenBalance(self, contractAddress, walletAddress):
         contract = self.web3.eth.contract(abi=self.abi, address=Web3.toChecksumAddress(contractAddress))
 
-        return formatBalance(self.web3, contract.functions.balanceOf(walletAddress).call())
+        return Utilities.formatBalance(self.web3, contract.functions.balanceOf(walletAddress).call())
 
     def getTokenName(self, contractAddress):
         contract = self.web3.eth.contract(abi=self.abi, address=Web3.toChecksumAddress(contractAddress))
@@ -71,7 +71,7 @@ class Wallet:
         total = sum([x[3] for x in wallet])
         
         return wallet
-
+    
     def sortingKey(self, e):
         return str(e[3])
 

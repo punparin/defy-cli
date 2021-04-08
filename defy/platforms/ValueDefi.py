@@ -1,8 +1,8 @@
 from configparser import SafeConfigParser
 from web3 import Web3
 from tabulate import tabulate
-from Utilities import *
-from PriceFinder import PriceFinder
+from defy.Utilities import Utilities
+from defy.PriceFinder import PriceFinder
 import json
 import os
 import requests
@@ -49,13 +49,13 @@ class ValueDefi:
 
     def getTokenBalance(self, contractAddress, walletAddress):
         contract = self.web3.eth.contract(abi=self.abi, address=Web3.toChecksumAddress(contractAddress))
-        bal = formatBalance(self.web3, contract.functions.balanceOf(Web3.toChecksumAddress(walletAddress)).call())
+        bal = Utilities.formatBalance(self.web3, contract.functions.balanceOf(Web3.toChecksumAddress(walletAddress)).call())
         
         return bal
 
     def getTokenPricePerShare(self, contractAddress):
         contract = self.web3.eth.contract(abi=self.abi, address=Web3.toChecksumAddress(contractAddress))
-        pricePerShare = formatBalance(self.web3, contract.functions.getPricePerFullShare().call())
+        pricePerShare = Utilities.formatBalance(self.web3, contract.functions.getPricePerFullShare().call())
 
         return pricePerShare
 
