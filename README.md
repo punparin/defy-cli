@@ -37,7 +37,7 @@ Total Balance: $2348.17
 |-----------|----------|---------|
 | DefiValue | vSafe    |   ✅   |
 
-## Support Network
+## Support Networks
 
 | Network  | Support |
 |-----------|---------|
