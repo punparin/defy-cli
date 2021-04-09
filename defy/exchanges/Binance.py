@@ -6,13 +6,19 @@ class Binance:
     def __init__(self, priceFinder):
         self.platformName = "Binance"
 
-        self.binanceApiKey = os.getenv('binance_api_key')
-        self.binanceApiSecret = os.getenv('binance_api_secret')
+        self.binanceApiKey = os.getenv("binance_api_key")
+        self.binanceApiSecret = os.getenv("binance_api_secret")
         self.headers = [self.platformName, "Price", "Balance", "Balance ($)"]
 
         self.priceFinder = priceFinder
 
+    def isUsable(self):
+        return self.binanceApiSecret is not None and self.binanceApiSecret is not None
+
     def getWallet(self, hideSmallBal=True):
+        if not self.isUsable():
+            return []
+
         wallet = []
         client = Client(self.binanceApiKey, self.binanceApiSecret)
         tokens = client.get_account()["balances"]
