@@ -31,3 +31,15 @@ def test_getWallet(myWallet, walletAddress):
 
 def test_getWallet_with_not_hideSmallBalance(myWallet, walletAddress):
     assert myWallet.getWallet(walletAddress, False) == [] 
+
+def test_displayWallet(capsys, myWallet):
+    wallet = [
+        ["Test1", 3.3333, 2.2222, 1.1111],
+        ["Test2", 4.4444, 3.3333, 2.2222]
+    ]
+    expectedWallet = "Wallet      Price    Balance    Balance ($)\n--------  -------  ---------  -------------\nTest1        3.33     2.2222           1.11\nTest2        4.44     3.3333           2.22 \n\n"
+
+    myWallet.displayWallet(wallet)
+    captured = capsys.readouterr()
+
+    assert captured.out == expectedWallet

@@ -20,3 +20,8 @@ def test_GetTotal():
         [["Test1", 3, 2, 6], ["Test2", 4, 3, 12]]
     ]
     assert Utilities.getTotal(tabulateBalances) == 36
+
+def test_displayTotal(capsys):
+    Utilities.displayTotal(11.111111)
+    captured = capsys.readouterr()
+    assert captured.out == "Total Balance: $11.11\n"
