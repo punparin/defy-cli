@@ -58,7 +58,7 @@ $ pip install defy
 
 | Platform  | Features | Support |
 |-----------|----------|---------|
-| DefiValue | vSafe    |   ✅   |
+| ValueDefi | vSafe    |   ✅   |
 
 ## Support Exchanges
 
