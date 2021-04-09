@@ -1,11 +1,9 @@
 [![Upload Python Package](https://github.com/punparin/defy-cli/actions/workflows/python_publish.yaml/badge.svg)](https://github.com/punparin/defy-cli/actions/workflows/python_publish.yaml) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # DeFy CLI
-is a command line tool to lookup wallet and DeFi platforms balance on blockchain network
+> is a command line tool to lookup wallet and DeFi platforms balance on blockchain network
 
-<!-- toc -->
 
-## Usage
 ```sh-session
 $ defy all 0x60226a096fdcc916xxxx1feb94f21096fdd9f2a1
 
@@ -28,6 +26,22 @@ Warden-BUSD   700.2664   72.4477        1289.95
 Total Balance: $2348.17
 ```
 
+Table of Contents
+=================
+
+   * [DeFy CLI](#defy-cli)
+   * [Table of Contents](#table-of-contents)
+      * [Prerequisite](#prerequisite)
+      * [Installation](#installation)
+      * [Support Platforms](#support-platforms)
+      * [Support Exchanges](#support-exchanges)
+      * [Support Networks](#support-networks)
+      * [Commands](#commands)
+         * [defy all [ADDRESS]](#defy-all-address)
+         * [defy wallet [ADDRESS]](#defy-wallet-address)
+         * [defy exchange](#defy-exchange)
+         * [defy platform [ADDRESS]](#defy-platform-address)
+
 ## Prerequisite
 - [BscScan API Key](https://bscscan.com/myapikey)
   `export bscscan_api_key=<BSCSCAN_API_KEY>`
@@ -37,7 +51,9 @@ Total Balance: $2348.17
   `export binance_api_secret=<BINANCE_API_SECRET>`
 
 ## Installation
-`pip install defy`
+```
+$ pip install defy
+```
 
 ## Support Platforms
 
@@ -64,7 +80,7 @@ Total Balance: $2348.17
 * [`defy exchange`](#defy-exchange)
 * [`defy platform [ADDRESS]`](#defy-platform-address)
 
-## `defy all [ADDRESS]`
+### `defy all [ADDRESS]`
 ```
 Usage: defy all [OPTIONS] ADDRESS
 
@@ -75,7 +91,7 @@ Options:
   -h, --help              Show this message and exit.
 ```
 
-## `defy wallet [ADDRESS]`
+### `defy wallet [ADDRESS]`
 ```
 Usage: defy wallet [OPTIONS] ADDRESS
 
@@ -86,7 +102,7 @@ Options:
   -h, --help              Show this message and exit.
 ```
 
-## `defy exchange`
+### `defy exchange`
 ```
 Usage: defy exchange [OPTIONS]
 
@@ -97,7 +113,7 @@ Options:
   -h, --help              Show this message and exit.
 ```
 
-## `defy platform [ADDRESS]`
+### `defy platform [ADDRESS]`
 ```
 Usage: defy platform [OPTIONS] ADDRESS
 
