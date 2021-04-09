@@ -13,11 +13,10 @@ class ValueDefi:
 
         self.config.read("config.ini")
 
-        self.farmName = "ValueDefi"
-        self.masterAddress = "0xd56339F80586c08B7a4E3a68678d16D37237Bd96"
+        self.platformName = "ValueDefi"
         self.networkProvider = self.config["DEFAULT"]["network_provider"]
         self.valuedefiEndpoint = self.config["DEFAULT"]["valuedefi_endpoint"]
-        self.headers = ["%s Farm" % self.farmName, "Balance", "Reward", "Balance ($)"]
+        self.headers = [self.platformName, "Balance", "Reward", "Balance ($)"]
 
         self.web3 = Web3(Web3.HTTPProvider(self.networkProvider))
         self.priceFinder = priceFinder
@@ -25,7 +24,7 @@ class ValueDefi:
         with open("abis/valuedefi_abi.json", "r") as abi_definition:
             self.abi = json.load(abi_definition)
 
-    def getPlatformFarms(self, walletAddress):
+    def getWallet(self, walletAddress, hideSmallBal=True):
         platformFarms = []
         r = requests.get(self.valuedefiEndpoint)
         farms = r.json()["data"]
@@ -42,6 +41,9 @@ class ValueDefi:
                 pairTokenPrice = self.priceFinder.getTokenPrice(pairTokenSymbol)
                 reward = bal * pricePerShare - bal
                 balInDollar = (bal + reward) * mainTokenPrice + (bal + reward) * pairTokenPrice
+
+                if hideSmallBal and balInDollar < 1:
+                    continue
                 
                 platformFarms.append([pairSymbol, bal, reward, balInDollar])
         
@@ -59,5 +61,5 @@ class ValueDefi:
 
         return pricePerShare
 
-    def displayPlatformFarms(self, farms):
+    def displayWallet(self, farms):
         print(tabulate(farms, self.headers, floatfmt=(".f", ".4f", ".4f", ".2f"), tablefmt="simple"), "\n")

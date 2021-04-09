@@ -15,7 +15,7 @@ class Wallet:
 
         self.networkProvider = self.config["DEFAULT"]["network_provider"]
         self.transactionEndpoint = self.config["DEFAULT"]["bscscan_transaction_endpoint"]
-        self.headers = ["Token", "Price", "Balance", "Balance ($)"]
+        self.headers = ["Wallet", "Price", "Balance", "Balance ($)"]
 
         self.web3 = Web3(Web3.HTTPProvider(self.networkProvider))
         self.priceFinder = priceFinder
@@ -56,17 +56,14 @@ class Wallet:
         for symbol in tokens:
             bal = self.getTokenBalance(tokens[symbol], walletAddress)
 
-            if bal == 0 or (hideSmallBal and bal < 0.0001):
-                continue
-            
-            price = self.priceFinder.getTokenPrice(symbol)
+            if bal != 0: 
+                price = self.priceFinder.getTokenPrice(symbol)
+                balInDollar = bal * price
 
-            if price == 0:
-                continue
+                if hideSmallBal and balInDollar < 1:
+                    continue
 
-            balInDollar = bal * price
-
-            wallet.append([symbol, price, bal, balInDollar])
+                wallet.append([symbol, price, bal, balInDollar])
 
         total = sum([x[3] for x in wallet])
         

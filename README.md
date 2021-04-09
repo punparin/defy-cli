@@ -7,26 +7,34 @@ is a command line tool to lookup wallet and DeFi platforms balance on blockchain
 
 ## Usage
 ```sh-session
-$ py main.py --address 0x60226a096fdcc916xxxx1feb94f21096fdd9f2a1
+$ defy --address 0x60226a096fdcc916xxxx1feb94f21096fdd9f2a1
 
 Token      Price    Balance    Balance ($)
 -------  -------  ---------  -------------
-ACS        57.08     0.1560           8.91
-ADA         1.19   260.1230         308.72
-LINK       31.48    18.7821         591.24
-AUTO     3461.64     0.0004           1.30
-WATCH       1.08    21.1767          22.81 
+ACS        65.86     0.1560          10.28
+ADA         1.21   260.1230         314.87
+LINK       32.02    18.7821         601.48
+AUTO     3568.35     0.0004           1.34
+WATCH       1.19    21.1767          25.16
 
-ValueDefi Farm      Balance    Reward    Balance ($)
-----------------  ---------  --------  -------------
-Warden-BUSD        700.2664   57.2355        1415.19
+Binance      Price    Balance    Balance ($)
+---------  -------  ---------  -------------
+ATOM         20.31    37.1745         754.86
+
+ValueDefi      Balance    Reward    Balance ($)
+-----------  ---------  --------  -------------
+Warden-BUSD   700.2664   72.4477        1289.95
 
 Total Balance: $2348.17
 ```
 
 ## Prerequisite
 - [BscScan API Key](https://bscscan.com/myapikey)
-  `export bscscan_api_key=<API_KEY>`
+  `export bscscan_api_key=<BSCSCAN_API_KEY>`
+- [Binance API Key](https://www.binance.com/en-NG/support/faq/360002502072)
+  `export binance_api_key=<BINANCE_API_KEY>`
+- [Binance API Secret](https://www.binance.com/en-NG/support/faq/360002502072)
+  `export binance_api_secret=<BINANCE_API_SECRET>`
 
 ## Installation
 `pip install defy`
@@ -37,6 +45,12 @@ Total Balance: $2348.17
 |-----------|----------|---------|
 | DefiValue | vSafe    |   ✅   |
 
+## Support Exchanges
+
+| Exchange  | Features | Support |
+|-----------|----------|---------|
+| Binance   | -        |   ✅    |
+
 ## Support Networks
 
 | Network  | Support |
@@ -45,14 +59,51 @@ Total Balance: $2348.17
 
 ## Commands
 
-### `defy --address <ADDRESS>`
+* [`defy all [ADDRESS]`](#defy-all-address)
+* [`defy wallet [ADDRESS]`](#defy-wallet-address)
+* [`defy exchange`](#defy-exchange)
+* [`defy platform [ADDRESS]`](#defy-platform-address)
 
+## `defy all [ADDRESS]`
 ```
-USAGE
-  $ defy
+Usage: defy all [OPTIONS] ADDRESS
 
-OPTIONS
-  -a,   --address <ADDRESS>   wallet address
-  -h,   --help                show help menu
-  -hsb, --hide-small-bal      hide token which has small balance
+Options:
+  -hsb, --hide-small-bal  `True` to hide small balance in wallet,
+                          default=false
+
+  -h, --help              Show this message and exit.
+```
+
+## `defy wallet [ADDRESS]`
+```
+Usage: defy wallet [OPTIONS] ADDRESS
+
+Options:
+  -hsb, --hide-small-bal  `True` to hide small balance in wallet,
+                          default=false
+
+  -h, --help              Show this message and exit.
+```
+
+## `defy exchange`
+```
+Usage: defy exchange [OPTIONS]
+
+Options:
+  -hsb, --hide-small-bal  `True` to hide small balance in wallet,
+                          default=false
+
+  -h, --help              Show this message and exit.
+```
+
+## `defy platform [ADDRESS]`
+```
+Usage: defy platform [OPTIONS] ADDRESS
+
+Options:
+  -hsb, --hide-small-bal  `True` to hide small balance in wallet,
+                          default=false
+
+  -h, --help              Show this message and exit.
 ```

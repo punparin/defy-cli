@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name = "defy",
-    version = "0.0.2",
+    version = "0.0.3",
     author = "Parin Kobboon",
     author_email = "punparin@gmail.com",
     description = "A command line tool to lookup balance on blockchain network",
@@ -18,7 +18,8 @@ setuptools.setup(
         'configparser==5.0.2',
         'requests==2.25.1',
         'tabulate==0.8.9',
-        'web3==5.17.0'
+        'web3==5.17.0',
+        "python-binance==0.7.9"
         ],
     classifiers = [
         "Programming Language :: Python :: 3",
