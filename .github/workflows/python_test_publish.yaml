@@ -22,12 +22,20 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install setuptools wheel twine
+    - name: Get the version
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
     - name: Build and publish
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: |
-        echo ${{ github.event.release.tag_name }}
-        sed -i "s/0.0.0/${{ github.event.release.tag_name }}/g" setup.py
+        echo ${{ steps.get_version.outputs.VERSION }}
+        sed -i "s/0.0.0/${{ steps.get_version.outputs.VERSION }}/g" setup.py
         # python setup.py sdist bdist_wheel
         # twine upload --repository testpypi dist/*
+    - name: Invoke workflow without inputs
+      uses: benc-uk/workflow-dispatch@v1
+      with:
+        workflow: Upload Python Package to PyPi
+        token: ${{ secrets.PAT }}
