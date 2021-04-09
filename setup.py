@@ -19,7 +19,8 @@ setuptools.setup(
         'requests==2.25.1',
         'tabulate==0.8.9',
         'web3==5.17.0',
-        "python-binance==0.7.9"
+        "python-binance==0.7.9",
+        "pytest==6.2.3"
         ],
     classifiers = [
         "Programming Language :: Python :: 3",
