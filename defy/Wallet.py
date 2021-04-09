@@ -1,4 +1,4 @@
-from configparser import SafeConfigParser
+from configparser import ConfigParser
 from web3 import Web3
 from tabulate import tabulate
 from defy.Utilities import Utilities
@@ -9,7 +9,7 @@ import os
 
 class Wallet:
     def __init__(self, priceFinder):
-        self.config = SafeConfigParser(os.environ)
+        self.config = ConfigParser(os.environ)
 
         self.config.read("config.ini")
 
@@ -68,26 +68,6 @@ class Wallet:
         total = sum([x[3] for x in wallet])
         
         return wallet
-    
-    def sortingKey(self, e):
-        return str(e[3])
-
-    def formatTable(self, wallet):
-        newWallet = []
-
-        for i in range(len(wallet) - 1):
-            item = wallet[i]
-
-            if type(item[1]) != str:
-                newWallet.append([item[0], format(item[1], ".2f"), format(item[2], ".4f"), format(item[3], ".2f")])
-            else:
-                newWallet.append([item[0], item[1], format(item[2], ".4f"), item[3]])
-
-        total = wallet[-1]
-
-        newWallet.append([total[0], total[1], total[2], format(total[3], ".2f")])
-
-        return newWallet
 
     def displayWallet(self, wallet):
         print(tabulate(wallet, self.headers, floatfmt=(".f", ".2f", ".4f", ".2f"), tablefmt="simple"), "\n")

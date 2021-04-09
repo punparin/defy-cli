@@ -1,4 +1,4 @@
-from configparser import SafeConfigParser
+from configparser import ConfigParser
 from web3 import Web3
 from tabulate import tabulate
 from defy.Utilities import Utilities
@@ -9,7 +9,7 @@ import requests
 
 class ValueDefi:
     def __init__(self, priceFinder):
-        self.config = SafeConfigParser(os.environ)
+        self.config = ConfigParser(os.environ)
 
         self.config.read("config.ini")
 

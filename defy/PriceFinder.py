@@ -1,11 +1,11 @@
-from configparser import SafeConfigParser
+from configparser import ConfigParser
 import requests
 import json
 import os
 
 class PriceFinder:
     def __init__(self):
-        self.config = SafeConfigParser(os.environ)
+        self.config = ConfigParser(os.environ)
 
         self.config.read("config.ini")
 
