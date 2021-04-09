@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name = "defy",
-    version = "0.0.3",
+    version = "0.0.0",
     author = "Parin Kobboon",
     author_email = "punparin@gmail.com",
     description = "A command line tool to lookup balance on blockchain network",
