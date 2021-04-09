@@ -7,7 +7,7 @@ is a command line tool to lookup wallet and DeFi platforms balance on blockchain
 
 ## Usage
 ```sh-session
-$ defy --address 0x60226a096fdcc916xxxx1feb94f21096fdd9f2a1
+$ defy all 0x60226a096fdcc916xxxx1feb94f21096fdd9f2a1
 
 Token      Price    Balance    Balance ($)
 -------  -------  ---------  -------------
