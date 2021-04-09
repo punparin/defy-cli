@@ -34,7 +34,7 @@ jobs:
         sed -i "s/0.0.0/${{ steps.get_version.outputs.VERSION }}/g" setup.py
         python setup.py sdist bdist_wheel
         twine upload --repository testpypi dist/*
-    - name: Invoke workflow without inputs
+    - name: Invoke PyPi Workflow
       uses: benc-uk/workflow-dispatch@v1
       with:
         workflow: Upload Python Package to PyPi
