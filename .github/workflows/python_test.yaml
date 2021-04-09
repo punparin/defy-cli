@@ -10,7 +10,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-n-test:
 
     runs-on: ${{ matrix.os }}
     strategy:
@@ -38,6 +38,9 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
+
+  codecov:
+    runs-on: ubuntu-latest
     steps:
     - name: "Upload coverage to Codecov"
       uses: codecov/codecov-action@v1
