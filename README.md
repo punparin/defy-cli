@@ -43,12 +43,11 @@ Table of Contents
          * [defy platform [ADDRESS]](#defy-platform-address)
 
 ## Prerequisite
-- [BscScan API Key](https://bscscan.com/myapikey)
-  `export bscscan_api_key=<BSCSCAN_API_KEY>`
-- [Binance API Key](https://www.binance.com/en-NG/support/faq/360002502072)
-  `export binance_api_key=<BINANCE_API_KEY>`
-- [Binance API Secret](https://www.binance.com/en-NG/support/faq/360002502072)
-  `export binance_api_secret=<BINANCE_API_SECRET>`
+- (Optional) In case you would like to use Binance wallet lookup
+  - [Binance API Key](https://www.binance.com/en-NG/support/faq/360002502072)
+    `export binance_api_key=<BINANCE_API_KEY>`
+  - [Binance API Secret](https://www.binance.com/en-NG/support/faq/360002502072)
+    `export binance_api_secret=<BINANCE_API_SECRET>`
 
 ## Installation
 ```
