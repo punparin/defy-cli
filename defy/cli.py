@@ -102,7 +102,3 @@ def exchange(hideSmallBal):
 
     defyBinance.displayWallet(binanceBal)
     Utilities.displayTotal(total)
-
-
-if __name__ == "__main__":
-    cli()

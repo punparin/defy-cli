@@ -8,9 +8,17 @@ def walletAddress():
     return "0x683EdA55093092CF1D5365E6794597A3332A8FBc"
 
 
+def test_cli():
+    runner = CliRunner()
+    result = runner.invoke(cli)  # noqa: F405
+
+    assert result.exit_code == 0
+    assert "Usage: cli [OPTIONS] COMMAND [ARGS]" in result.output
+
+
 def test_all(walletAddress):
     runner = CliRunner()
-    result = runner.invoke(all, [walletAddress])
+    result = runner.invoke(all, [walletAddress])  # noqa: F405
     expectedKeywords = [
         "Wallet",
         "ValueDefi",
