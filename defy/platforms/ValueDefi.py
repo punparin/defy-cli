@@ -11,7 +11,7 @@ class ValueDefi:
     def __init__(self, priceFinder):
         self.config = ConfigParser(os.environ)
 
-        self.config.read("config.ini")
+        self.config.read("./config.ini")
 
         self.platformName = "ValueDefi"
         self.networkProvider = self.config["DEFAULT"]["network_provider"]

@@ -7,7 +7,7 @@ class PriceFinder:
     def __init__(self):
         self.config = ConfigParser(os.environ)
 
-        self.config.read("config.ini")
+        self.config.read("./config.ini")
 
         self.pancakeEndpoint = self.config["DEFAULT"]["pancake_endpoint"]
 

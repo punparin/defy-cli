@@ -11,7 +11,7 @@ class Wallet:
     def __init__(self, priceFinder):
         self.config = ConfigParser(os.environ)
 
-        self.config.read("config.ini")
+        self.config.read("./config.ini")
 
         self.networkProvider = self.config["DEFAULT"]["network_provider"]
         self.transactionEndpoint = self.config["DEFAULT"]["bscscan_transaction_endpoint"]
