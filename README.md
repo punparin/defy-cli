@@ -42,6 +42,7 @@ Table of Contents
          * [defy exchange](#defy-exchange)
          * [defy platform [ADDRESS]](#defy-platform-address)
       * [Known Issues](#known-issues)
+         * [Timestamp for this request was 1000ms ahead of the server's time](#timestamp-for-this-request-was-1000ms-ahead-of-the-servers-time)
 
 ## Prerequisite
 - (Optional) In case you would like to use Binance wallet lookup
@@ -126,13 +127,14 @@ Options:
 
 ## Known Issues
 
-- Timestamp for this request was 1000ms ahead of the server's time
+### Timestamp for this request was 1000ms ahead of the server's time
 
-  For windows, run the following commands to resync machine's clock
+Run the following commands to resync machine's clock
 
-  ```sh-session
-  $ net stop w32time
-  $ w32tm /unregister
-  $ net start w32time
-  $ w32tm /resync
-  ```
+> For windows
+```sh-session
+$ net stop w32time
+$ w32tm /unregister
+$ net start w32time
+$ w32tm /resync
+```
