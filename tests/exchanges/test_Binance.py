@@ -1,6 +1,7 @@
 import pytest
 from defy.PriceFinder import PriceFinder
 from defy.exchanges.Binance import Binance
+import json
 
 
 @pytest.fixture
@@ -27,8 +28,13 @@ def test_isUsable_without_credentials(myInvalidBinance):
     assert not myInvalidBinance.isUsable()
 
 
-def test_getWallet(myInvalidBinance):
-    assert myInvalidBinance.getWallet() == []
+def test_getWallet(mocker, myValidBinance):
+    with open("tests/mocks/binance_get_account.json", "r") as mock_definition:
+        mock = json.load(mock_definition)
+
+    mocker.patch("binance.client.Client.get_account", return_value=mock)
+    mocker.patch("defy.PriceFinder.PriceFinder.getTokenPrice", return_value=1)
+    assert myValidBinance.getWallet() == [["ATOM", 1, 37.17447000, 37.17447000]]
 
 
 def test_displayWallet(capsys, myValidBinance):
