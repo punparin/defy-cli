@@ -131,7 +131,7 @@ Options:
 
 Run the following commands to resync machine's clock
 
-> For windows
+> For Windows
 ```sh-session
 $ net stop w32time
 $ w32tm /unregister
