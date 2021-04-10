@@ -1,0 +1,23 @@
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  sha: v1.2.3
+  hooks:
+  -   id: check-merge-conflict
+  -   id: debug-statements
+- repo: https://github.com/ambv/black
+  rev: stable
+  hooks:
+  - id: black
+    language_version: python3.6
+- repo: https://gitlab.com/pycqa/flake8
+  rev: 3.9.0
+  hooks:
+  - id: flake8
+- repo: local
+  hooks:
+    - id: pytest-check
+      name: pytest-check
+      entry: pytest
+      language: system
+      pass_filenames: false
+      stages: [push]

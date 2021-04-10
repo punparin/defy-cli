@@ -3,6 +3,7 @@ import requests
 import json
 import os
 
+
 class PriceFinder:
     def __init__(self):
         self.config = ConfigParser(os.environ)
@@ -24,7 +25,7 @@ class PriceFinder:
         for k, v in tokens.items():
             tokens[k] = float(v)
 
-        formattedTokens = dict((k.lower(), v) for k,v in tokens.items())
+        formattedTokens = dict((k.lower(), v) for k, v in tokens.items())
 
         return formattedTokens
 

@@ -4,4 +4,8 @@ requests==2.25.1
 tabulate==0.8.9
 web3==5.17.0
 python-binance==0.7.9
+
 pytest==6.2.3
+pre-commit==2.12.0
+black==20.8b1
+flake8==3.9.0

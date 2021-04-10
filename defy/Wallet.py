@@ -7,6 +7,7 @@ import requests
 import json
 import os
 
+
 class Wallet:
     def __init__(self, priceFinder):
         self.config = ConfigParser(os.environ)
@@ -14,7 +15,9 @@ class Wallet:
         self.config.read("./config.ini")
 
         self.networkProvider = self.config["DEFAULT"]["network_provider"]
-        self.transactionEndpoint = self.config["DEFAULT"]["bscscan_transaction_endpoint"]
+        self.transactionEndpoint = self.config["DEFAULT"][
+            "bscscan_transaction_endpoint"
+        ]
         self.headers = ["Wallet", "Price", "Balance", "Balance ($)"]
 
         self.web3 = Web3(Web3.HTTPProvider(self.networkProvider))
@@ -24,18 +27,26 @@ class Wallet:
             self.abi = json.load(abi_definition)
 
     def getTokenBalance(self, contractAddress, walletAddress):
-        contract = self.web3.eth.contract(abi=self.abi, address=Web3.toChecksumAddress(contractAddress))
+        contract = self.web3.eth.contract(
+            abi=self.abi, address=Web3.toChecksumAddress(contractAddress)
+        )
 
-        return Utilities.formatBalance(self.web3, contract.functions.balanceOf(walletAddress).call())
+        return Utilities.formatBalance(
+            self.web3, contract.functions.balanceOf(walletAddress).call()
+        )
 
     def getTokenName(self, contractAddress):
-        contract = self.web3.eth.contract(abi=self.abi, address=Web3.toChecksumAddress(contractAddress))
+        contract = self.web3.eth.contract(
+            abi=self.abi, address=Web3.toChecksumAddress(contractAddress)
+        )
 
         return contract.functions.name().call()
 
     def getSymbol(self, contractAddress):
-        contract = self.web3.eth.contract(abi=self.abi, address=Web3.toChecksumAddress(contractAddress))
-        
+        contract = self.web3.eth.contract(
+            abi=self.abi, address=Web3.toChecksumAddress(contractAddress)
+        )
+
         return contract.functions.symbol().call()
 
     def getWalletTokens(self, walletAddress):
@@ -47,7 +58,7 @@ class Wallet:
             transactions[item["tokenSymbol"]] = item["contractAddress"]
 
         return transactions
-    
+
     def getWallet(self, walletAddress, hideSmallBal=True):
         wallet = []
         tokens = self.getWalletTokens(walletAddress)
@@ -56,7 +67,7 @@ class Wallet:
         for symbol in tokens:
             bal = self.getTokenBalance(tokens[symbol], walletAddress)
 
-            if bal != 0: 
+            if bal != 0:
                 price = self.priceFinder.getTokenPrice(symbol)
                 balInDollar = bal * price
 
@@ -65,9 +76,15 @@ class Wallet:
 
                 wallet.append([symbol, price, bal, balInDollar])
 
-        total = sum([x[3] for x in wallet])
-        
         return wallet
 
     def displayWallet(self, wallet):
-        print(tabulate(wallet, self.headers, floatfmt=(".f", ".2f", ".4f", ".2f"), tablefmt="simple"), "\n")
+        print(
+            tabulate(
+                wallet,
+                self.headers,
+                floatfmt=(".f", ".2f", ".4f", ".2f"),
+                tablefmt="simple",
+            ),
+            "\n",
+        )

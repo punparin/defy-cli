@@ -7,6 +7,7 @@ import json
 import os
 import requests
 
+
 class ValueDefi:
     def __init__(self, priceFinder):
         self.config = ConfigParser(os.environ)
@@ -36,30 +37,52 @@ class ValueDefi:
             if bal != 0:
                 pricePerShare = self.getTokenPricePerShare(farmingContractAddress)
                 pairSymbol = farm["wantTokenSymbol"]
-                mainTokenSymbol, pairTokenSymbol = pairSymbol.split("-")[0], pairSymbol.split("-")[1]
+                mainTokenSymbol, pairTokenSymbol = (
+                    pairSymbol.split("-")[0],
+                    pairSymbol.split("-")[1],
+                )
                 mainTokenPrice = self.priceFinder.getTokenPrice(mainTokenSymbol)
                 pairTokenPrice = self.priceFinder.getTokenPrice(pairTokenSymbol)
                 reward = bal * pricePerShare - bal
-                balInDollar = (bal + reward) * mainTokenPrice + (bal + reward) * pairTokenPrice
+                balInDollar = (bal + reward) * mainTokenPrice + (
+                    bal + reward
+                ) * pairTokenPrice
 
                 if hideSmallBal and balInDollar < 1:
                     continue
-                
+
                 platformFarms.append([pairSymbol, bal, reward, balInDollar])
-        
+
         return platformFarms
 
     def getTokenBalance(self, contractAddress, walletAddress):
-        contract = self.web3.eth.contract(abi=self.abi, address=Web3.toChecksumAddress(contractAddress))
-        bal = Utilities.formatBalance(self.web3, contract.functions.balanceOf(Web3.toChecksumAddress(walletAddress)).call())
-        
+        contract = self.web3.eth.contract(
+            abi=self.abi, address=Web3.toChecksumAddress(contractAddress)
+        )
+        bal = Utilities.formatBalance(
+            self.web3,
+            contract.functions.balanceOf(Web3.toChecksumAddress(walletAddress)).call(),
+        )
+
         return bal
 
     def getTokenPricePerShare(self, contractAddress):
-        contract = self.web3.eth.contract(abi=self.abi, address=Web3.toChecksumAddress(contractAddress))
-        pricePerShare = Utilities.formatBalance(self.web3, contract.functions.getPricePerFullShare().call())
+        contract = self.web3.eth.contract(
+            abi=self.abi, address=Web3.toChecksumAddress(contractAddress)
+        )
+        pricePerShare = Utilities.formatBalance(
+            self.web3, contract.functions.getPricePerFullShare().call()
+        )
 
         return pricePerShare
 
     def displayWallet(self, farms):
-        print(tabulate(farms, self.headers, floatfmt=(".f", ".4f", ".4f", ".2f"), tablefmt="simple"), "\n")
+        print(
+            tabulate(
+                farms,
+                self.headers,
+                floatfmt=(".f", ".4f", ".4f", ".2f"),
+                tablefmt="simple",
+            ),
+            "\n",
+        )
