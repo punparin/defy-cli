@@ -10,7 +10,7 @@ import os
 
 class Wallet:
     def __init__(self, priceFinder):
-        self.config = ConfigParser(os.environ)
+        self.config = ConfigParser()
 
         self.config.read("./config.ini")
 
