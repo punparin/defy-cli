@@ -1,6 +1,9 @@
 import pytest
 from defy.PriceFinder import PriceFinder
 from defy.platforms.ValueDefi import ValueDefi
+import json
+import responses
+from configparser import ConfigParser
 
 
 @pytest.fixture
@@ -26,8 +29,23 @@ def test_getTokenPricePerShare(myValueDefi, contractAddress):
     assert type(myValueDefi.getTokenPricePerShare(contractAddress)) == float
 
 
-def test_getWallet(myValueDefi, walletAddress):
-    assert myValueDefi.getWallet(walletAddress) == []
+@responses.activate
+def test_getWallet(mocker, myValueDefi, walletAddress):
+    with open("tests/mocks/valuedefi_valuedefi_endpoint.json", "r") as mock_definition:
+        mockReponse = json.load(mock_definition)
+
+    config = ConfigParser()
+    config.read("./config.ini")
+    valuedefiEndpoint = config["DEFAULT"]["valuedefi_endpoint"]
+
+    mocker.patch("defy.platforms.ValueDefi.ValueDefi.getTokenBalance", return_value=1)
+    mocker.patch(
+        "defy.platforms.ValueDefi.ValueDefi.getTokenPricePerShare", return_value=1.5
+    )
+    mocker.patch("defy.PriceFinder.PriceFinder.getTokenPrice", return_value=1)
+    responses.add(responses.GET, valuedefiEndpoint, json=mockReponse, status=200)
+
+    assert myValueDefi.getWallet(walletAddress) == [["Warden-BUSD", 1, 0.5, 3.0]]
 
 
 def test_getWallet_with_not_hideSmallBalance(myValueDefi, walletAddress):

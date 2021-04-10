@@ -1,0 +1,82 @@
+{
+  "status": 200,
+  "message": "Success",
+  "data": [
+    {
+      "id": "0xdec50bf0e3c8522cee42a7c1754b9582143c7cb7",
+      "farmingName": "vsafe",
+      "farmingType": "vsafe",
+      "farmOptions": {
+        "isNewStrategy": false,
+        "performanceFee": 0.05,
+        "withdrawalFee": 0,
+        "link": "https://bsc.valuedefi.io/#/vsafe",
+        "lastHarvestTimeStamp": 1618062306,
+        "totalPendingReward": 35.103910560751494,
+        "strategies": [
+          {
+            "id": "0xde866dd77b6df6772e320dc92bff0eddc626c674-7",
+            "strategy": "0x22b9Fe42081444ACf420Bc8DB767710f84699F56",
+            "group": "wardenswap",
+            "link": "https://farm.wardenswap.finance/farm",
+            "farmingName": "wardenswap",
+            "farmingType": "vfarm",
+            "apyLock": {
+              "apyLockRate": 0
+            },
+            "earnTokens": [
+              {
+                "address": "0x0feadcc3824e7f3c12f40e324a60c23ca51627fc",
+                "decimals": 18,
+                "name": "WardenSwap Token",
+                "type": "seed",
+                "symbol": "Warden",
+                "price": 0.7552027,
+                "amount": 46.48276623051201
+              }
+            ],
+            "pendingReward": 35.103910560751494,
+            "apy": 550.0863056220865,
+            "dailyApy": 1.5070857688276342,
+            "incentiveApy": 550.0863056220865,
+            "strategyApy": 24348.076592122605,
+            "percent": 1,
+            "performanceFee": 0.05,
+            "withdrawalFee": 0,
+            "lastHarvestTimeStampStrategy": 1618062306,
+            "balance": 78972.28928677466,
+            "poolId": 7,
+            "farmPool": "0xde866dd77b6df6772e320dc92bff0eddc626c674"
+          }
+        ]
+      },
+      "farmingContractAddress": "0xdec50bf0e3c8522cee42a7c1754b9582143c7cb7",
+      "earnTokenAddress": "None",
+      "earnTokenDecimals": "None",
+      "earnTokenPrice": "None",
+      "earnTokenSymbol": "None",
+      "earnTokenName": "None",
+      "earnTokenLiquidity": "None",
+      "wantTokenAddress": "0xc95b1750043fce5dfcc8539835ea3830ec002a89",
+      "wantTokenDecimals": 18,
+      "wantTokenPrice": 1.78953453,
+      "wantTokenName": "Warden-BUSD",
+      "wantTokenSymbol": "Warden-BUSD",
+      "wantTokenType": "warden",
+      "wantTokenLocked": 78972.28928677466,
+      "tvl": 141323.63859183234,
+      "isVault": true,
+      "dailyApy": 1.518019400625037,
+      "apy": 24348.076592122605,
+      "incentiveApy": 0,
+      "options": "None",
+      "apyDetails": "None",
+      "description": "None",
+      "priority": 10,
+      "status": 1,
+      "group": "vsafe",
+      "createdAt": "None",
+      "updatedAt": "2021-04-10T14:08:49.000Z"
+    }
+  ]
+}
