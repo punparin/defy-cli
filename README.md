@@ -41,6 +41,7 @@ Table of Contents
          * [defy wallet [ADDRESS]](#defy-wallet-address)
          * [defy exchange](#defy-exchange)
          * [defy platform [ADDRESS]](#defy-platform-address)
+      * [Known Issues](#known-issues)
 
 ## Prerequisite
 - (Optional) In case you would like to use Binance wallet lookup
@@ -122,3 +123,16 @@ Options:
 
   -h, --help              Show this message and exit.
 ```
+
+## Known Issues
+
+- Timestamp for this request was 1000ms ahead of the server's time
+
+  For windows, run the following commands to resync machine's clock
+
+  ```sh-session
+  $ net stop w32time
+  $ w32tm /unregister
+  $ net start w32time
+  $ w32tm /resync
+  ```
