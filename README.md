@@ -7,23 +7,21 @@
 ```sh-session
 $ defy all 0x60226a096fdcc916xxxx1feb94f21096fdd9f2a1
 
-Token      Price    Balance    Balance ($)
--------  -------  ---------  -------------
-ACS        65.86     0.1560          10.28
-ADA         1.21   260.1230         314.87
-LINK       32.02    18.7821         601.48
-AUTO     3568.35     0.0004           1.34
-WATCH       1.19    21.1767          25.16
+Wallet      Price    Balance    Balance ($)
+--------  -------  ---------  -------------
+Warden       0.67   134.2319          89.95
+ADA          1.21   260.1230         315.08
+LINK        32.80    18.7821         616.00
 
 Binance      Price    Balance    Balance ($)
 ---------  -------  ---------  -------------
-ATOM         20.31    37.1745         754.86
+ATOM         21.05    37.1745         782.70
 
-ValueDefi      Balance    Reward    Balance ($)
------------  ---------  --------  -------------
-Warden-BUSD   700.2664   72.4477        1289.95
+ValueDefi      Deposit    Reward    Balance    Balance ($)
+-----------  ---------  --------  ---------  -------------
+Warden-BUSD   980.7301  140.9000    1121.63        1873.24
 
-Total Balance: $2348.17
+Total Balance: $3676.97
 ```
 
 Table of Contents
