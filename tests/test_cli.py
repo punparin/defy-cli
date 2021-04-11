@@ -25,7 +25,7 @@ def test_all(mocker, walletAddress):
         "TEST VALUEDEFI     1.1100    2.2200       3.33           6.66",
         "Binance          Price    Balance    Balance ($)",
         "TEST EXCHANGE        1    37.1745          37.17",
-        "Total Balance: $40.60",
+        "Total Balance: $43.93",
     ]
 
     mocker.patch(
@@ -71,7 +71,7 @@ def test_platform(mocker, walletAddress):
     expectedKeywords = [
         "ValueDefi         Deposit    Reward    Balance    Balance ($)",
         "TEST VALUEDEFI     1.1100    2.2200       3.33           6.66",
-        "Total Balance: $3.33",
+        "Total Balance: $6.66",
     ]
 
     mocker.patch(

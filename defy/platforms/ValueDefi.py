@@ -51,9 +51,7 @@ class ValueDefi:
                 pairTokenPrice = self.priceFinder.getTokenPrice(pairTokenSymbol)
                 reward = deposit * pricePerShare - deposit
                 bal = deposit + reward
-                balInDollar = (deposit + reward) * mainTokenPrice + (
-                    deposit + reward
-                ) * pairTokenPrice
+                balInDollar = bal * mainTokenPrice + bal * pairTokenPrice
 
                 if hideSmallBal and balInDollar < 1:
                     continue

@@ -7,8 +7,14 @@ class Utilities:
     def getTotal(tabulateBalances):
         total = 0
 
-        for bal in tabulateBalances:
-            total += sum([x[3] for x in bal])
+        for rawBal in tabulateBalances:
+            bal = rawBal["bal"]
+            typeBal = rawBal["type"]
+
+            if typeBal in ["binance", "wallet"]:
+                total += sum([x[3] for x in bal])
+            elif typeBal in ["valuedefi"]:
+                total += sum([x[4] for x in bal])
 
         return total
 
