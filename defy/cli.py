@@ -36,8 +36,8 @@ def cli():
 )
 def all(address, hideSmallBal):
     walletBal = defyWallet.getWallet(address, hideSmallBal)
-    valueDefiBal = defyValueDefi.getWallet(address, hideSmallBal)
     binanceBal = defyBinance.getWallet(hideSmallBal)
+    valueDefiBal = defyValueDefi.getWallet(address, hideSmallBal)
 
     total = Utilities.getTotal(
         [
@@ -48,8 +48,8 @@ def all(address, hideSmallBal):
     )
 
     defyWallet.displayWallet(walletBal)
-    defyValueDefi.displayWallet(valueDefiBal)
     defyBinance.displayWallet(binanceBal)
+    defyValueDefi.displayWallet(valueDefiBal)
 
     Utilities.displayTotal(total)
 
