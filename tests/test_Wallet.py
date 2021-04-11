@@ -84,9 +84,14 @@ def test_getWallet_with_not_hideSmallBalance(mocker, myWallet, walletAddress):
 
 def test_displayWallet(capsys, myWallet):
     wallet = [["Test1", 3.3333, 2.2222, 1.1111], ["Test2", 4.4444, 3.3333, 2.2222]]
-    expectedWallet = "Wallet      Price    Balance    Balance ($)\n--------  -------  ---------  -------------\nTest1        3.33     2.2222           1.11\nTest2        4.44     3.3333           2.22 \n\n"
+    expectedKeywords = [
+        "Wallet      Price    Balance    Balance ($)",
+        "Test1        3.33     2.2222           1.11",
+        "Test2        4.44     3.3333           2.22",
+    ]
 
     myWallet.displayWallet(wallet)
     captured = capsys.readouterr()
 
-    assert captured.out == expectedWallet
+    for keyword in expectedKeywords:
+        assert keyword in captured.out

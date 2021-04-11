@@ -72,20 +72,9 @@ def test_getWallet_with_not_hideSmallBalance(mocker, myValueDefi, walletAddress)
 def test_displayWallet(capsys, myValueDefi):
     farms = [["Test1", 1.11, 2.22, 3.33, 6.66], ["Test2", 5.55, 6.66, 12.21, 24.42]]
     expectedKeywords = [
-        "ValueDefi",
-        "Deposit",
-        "Reward",
-        "Balance",
-        "Balance ($)",
-        "Test1",
-        "1.1100",
-        "2.2200",
-        "3.33",
-        "6.66",
-        "5.5500",
-        "6.6600",
-        "12.21",
-        "24.42",
+        "ValueDefi      Deposit    Reward    Balance    Balance ($)",
+        "Test1           1.1100    2.2200       3.33           6.66",
+        "Test2           5.5500    6.6600      12.21          24.42",
     ]
 
     myValueDefi.displayWallet(farms)
