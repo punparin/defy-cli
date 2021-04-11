@@ -17,7 +17,13 @@ class ValueDefi:
         self.platformName = "ValueDefi"
         self.networkProvider = self.config["DEFAULT"]["network_provider"]
         self.valuedefiEndpoint = self.config["DEFAULT"]["valuedefi_endpoint"]
-        self.headers = [self.platformName, "Balance", "Reward", "Balance ($)"]
+        self.headers = [
+            self.platformName,
+            "Deposit",
+            "Reward",
+            "Balance",
+            "Balance ($)",
+        ]
 
         self.web3 = Web3(Web3.HTTPProvider(self.networkProvider))
         self.priceFinder = priceFinder
@@ -32,9 +38,9 @@ class ValueDefi:
 
         for farm in farms:
             farmingContractAddress = farm["farmingContractAddress"]
-            bal = self.getTokenBalance(farmingContractAddress, walletAddress)
+            deposit = self.getTokenBalance(farmingContractAddress, walletAddress)
 
-            if bal != 0:
+            if deposit != 0:
                 pricePerShare = self.getTokenPricePerShare(farmingContractAddress)
                 pairSymbol = farm["wantTokenSymbol"]
                 mainTokenSymbol, pairTokenSymbol = (
@@ -43,15 +49,16 @@ class ValueDefi:
                 )
                 mainTokenPrice = self.priceFinder.getTokenPrice(mainTokenSymbol)
                 pairTokenPrice = self.priceFinder.getTokenPrice(pairTokenSymbol)
-                reward = bal * pricePerShare - bal
-                balInDollar = (bal + reward) * mainTokenPrice + (
-                    bal + reward
+                reward = deposit * pricePerShare - deposit
+                bal = deposit + reward
+                balInDollar = (deposit + reward) * mainTokenPrice + (
+                    deposit + reward
                 ) * pairTokenPrice
 
                 if hideSmallBal and balInDollar < 1:
                     continue
 
-                platformFarms.append([pairSymbol, bal, reward, balInDollar])
+                platformFarms.append([pairSymbol, deposit, reward, bal, balInDollar])
 
         return platformFarms
 
@@ -81,7 +88,7 @@ class ValueDefi:
             tabulate(
                 farms,
                 self.headers,
-                floatfmt=(".f", ".4f", ".4f", ".2f"),
+                floatfmt=(".f", ".4f", ".4f", ".2f", ".2f"),
                 tablefmt="simple",
             ),
             "\n",

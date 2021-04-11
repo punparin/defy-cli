@@ -42,21 +42,54 @@ def test_getWallet(mocker, myValueDefi, walletAddress):
     mocker.patch(
         "defy.platforms.ValueDefi.ValueDefi.getTokenPricePerShare", return_value=1.5
     )
-    mocker.patch("defy.PriceFinder.PriceFinder.getTokenPrice", return_value=1)
+    mocker.patch("defy.PriceFinder.PriceFinder.getTokenPrice", return_value=0.1)
     responses.add(responses.GET, valuedefiEndpoint, json=mockReponse, status=200)
 
-    assert myValueDefi.getWallet(walletAddress) == [["Warden-BUSD", 1, 0.5, 3.0]]
+    assert myValueDefi.getWallet(walletAddress) == []
 
 
-def test_getWallet_with_not_hideSmallBalance(myValueDefi, walletAddress):
-    assert myValueDefi.getWallet(walletAddress, False) == []
+@responses.activate
+def test_getWallet_with_not_hideSmallBalance(mocker, myValueDefi, walletAddress):
+    with open("tests/mocks/valuedefi_valuedefi_endpoint.json", "r") as mock_definition:
+        mockReponse = json.load(mock_definition)
+
+    config = ConfigParser()
+    config.read("./config.ini")
+    valuedefiEndpoint = config["DEFAULT"]["valuedefi_endpoint"]
+
+    mocker.patch("defy.platforms.ValueDefi.ValueDefi.getTokenBalance", return_value=1)
+    mocker.patch(
+        "defy.platforms.ValueDefi.ValueDefi.getTokenPricePerShare", return_value=1.5
+    )
+    mocker.patch("defy.PriceFinder.PriceFinder.getTokenPrice", return_value=10)
+    responses.add(responses.GET, valuedefiEndpoint, json=mockReponse, status=200)
+
+    assert myValueDefi.getWallet(walletAddress, False) == [
+        ["Warden-BUSD", 1, 0.5, 1.5, 30.0]
+    ]
 
 
 def test_displayWallet(capsys, myValueDefi):
-    farms = [["Test1", 3.3333, 2.2222, 1.1111], ["Test2", 4.4444, 3.3333, 2.2222]]
-    expectedFarms = "ValueDefi      Balance    Reward    Balance ($)\n-----------  ---------  --------  -------------\nTest1           3.3333    2.2222           1.11\nTest2           4.4444    3.3333           2.22 \n\n"
+    farms = [["Test1", 1.11, 2.22, 3.33, 6.66], ["Test2", 5.55, 6.66, 12.21, 24.42]]
+    expectedKeywords = [
+        "ValueDefi",
+        "Deposit",
+        "Reward",
+        "Balance",
+        "Balance ($)",
+        "Test1",
+        "1.1100",
+        "2.2200",
+        "3.33",
+        "6.66",
+        "5.5500",
+        "6.6600",
+        "12.21",
+        "24.42",
+    ]
 
     myValueDefi.displayWallet(farms)
     captured = capsys.readouterr()
 
-    assert captured.out == expectedFarms
+    for keyword in expectedKeywords:
+        assert keyword in captured.out
