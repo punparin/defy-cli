@@ -16,61 +16,90 @@ def test_cli():
     assert "Usage: cli [OPTIONS] COMMAND [ARGS]" in result.output
 
 
-def test_all(walletAddress):
+def test_all(mocker, walletAddress):
     runner = CliRunner()
+    expectedKeywords = [
+        "Wallet         Price    Balance    Balance ($)",
+        "TEST WALLET     0.10          1           0.10",
+        "ValueDefi         Deposit    Reward    Balance    Balance ($)",
+        "TEST VALUEDEFI     1.1100    2.2200       3.33           6.66",
+        "Binance          Price    Balance    Balance ($)",
+        "TEST EXCHANGE        1    37.1745          37.17",
+        "Total Balance: $40.60",
+    ]
+
+    mocker.patch(
+        "defy.Wallet.Wallet.getWallet", return_value=[["TEST WALLET", 0.1, 1, 0.1]]
+    )
+    mocker.patch(
+        "defy.platforms.ValueDefi.ValueDefi.getWallet",
+        return_value=[["TEST VALUEDEFI", 1.11, 2.22, 3.33, 6.66]],
+    )
+    mocker.patch(
+        "defy.exchanges.Binance.Binance.getWallet",
+        return_value=[["TEST EXCHANGE", 1, 37.17447000, 37.17447000]],
+    )
+
     result = runner.invoke(all, [walletAddress])  # noqa: F405
-    expectedKeywords = [
-        "Wallet",
-        "ValueDefi",
-        "Binance",
-        "Reward",
-        "Price",
-        "Balance",
-        "Balance ($)",
-        "Total Balance: $",
-    ]
 
     assert result.exit_code == 0
     for keyword in expectedKeywords:
         assert keyword in result.output
 
 
-def test_wallet(walletAddress):
+def test_wallet(mocker, walletAddress):
     runner = CliRunner()
+    expectedKeywords = [
+        "Wallet         Price    Balance    Balance ($)",
+        "TEST WALLET     0.10          1           0.10",
+        "Total Balance: $0.10",
+    ]
+
+    mocker.patch(
+        "defy.Wallet.Wallet.getWallet", return_value=[["TEST WALLET", 0.1, 1, 0.1]]
+    )
+
     result = runner.invoke(wallet, [walletAddress])  # noqa: F405
-    expectedKeywords = ["Wallet", "Price", "Balance", "Balance ($)", "Total Balance: $"]
 
     assert result.exit_code == 0
     for keyword in expectedKeywords:
         assert keyword in result.output
 
 
-def test_platform(walletAddress):
+def test_platform(mocker, walletAddress):
     runner = CliRunner()
+    expectedKeywords = [
+        "ValueDefi         Deposit    Reward    Balance    Balance ($)",
+        "TEST VALUEDEFI     1.1100    2.2200       3.33           6.66",
+        "Total Balance: $3.33",
+    ]
+
+    mocker.patch(
+        "defy.platforms.ValueDefi.ValueDefi.getWallet",
+        return_value=[["TEST VALUEDEFI", 1.11, 2.22, 3.33, 6.66]],
+    )
+
     result = runner.invoke(platform, [walletAddress])  # noqa: F405
-    expectedKeywords = [
-        "ValueDefi",
-        "Balance",
-        "Reward",
-        "Balance ($)",
-        "Total Balance: $",
-    ]
 
     assert result.exit_code == 0
     for keyword in expectedKeywords:
         assert keyword in result.output
 
 
-def test_exchange():
+def test_exchange(mocker):
     runner = CliRunner()
-    result = runner.invoke(exchange)  # noqa: F405
     expectedKeywords = [
-        "Binance",
-        "Price",
-        "Balance",
-        "Balance ($)",
-        "Total Balance: $",
+        "Binance          Price    Balance    Balance ($)",
+        "TEST EXCHANGE        1    37.1745          37.17",
+        "Total Balance: $37.17",
     ]
+
+    mocker.patch(
+        "defy.exchanges.Binance.Binance.getWallet",
+        return_value=[["TEST EXCHANGE", 1, 37.17447000, 37.17447000]],
+    )
+
+    result = runner.invoke(exchange)  # noqa: F405
 
     assert result.exit_code == 0
     for keyword in expectedKeywords:
