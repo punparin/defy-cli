@@ -133,6 +133,7 @@ Run the following commands to resync machine's clock
 ```sh-session
 $ net stop w32time
 $ w32tm /unregister
+$ w32tm /register
 $ net start w32time
 $ w32tm /resync
 ```
