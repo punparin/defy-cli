@@ -17,11 +17,15 @@ Binance      Price    Balance    Balance ($)
 ---------  -------  ---------  -------------
 ATOM         21.05    37.1745         782.70
 
+Fulcrum      Deposit    Reward (BGOV)    Balance ($)
+---------  ---------  ---------------  -------------
+LINK         18.7800           4.2001         759.39
+
 ValueDefi      Deposit    Reward    Balance    Balance ($)
 -----------  ---------  --------  ---------  -------------
 Warden-BUSD   980.7301  140.9000    1121.63        1873.24
 
-Total Balance: $3676.97
+Total Balance: $4436.36
 ```
 
 Table of Contents
@@ -39,6 +43,8 @@ Table of Contents
          * [defy wallet [ADDRESS]](#defy-wallet-address)
          * [defy exchange](#defy-exchange)
          * [defy platform [ADDRESS]](#defy-platform-address)
+         * [defy valuedefi [ADDRESS]](#defy-valuedefi-address)
+         * [defy fulcrum [ADDRESS]](#defy-fulcrum-address)
       * [Known Issues](#known-issues)
          * [Timestamp for this request was 1000ms ahead of the server's time](#timestamp-for-this-request-was-1000ms-ahead-of-the-servers-time)
 
@@ -56,9 +62,10 @@ $ pip install defy
 
 ## Support Platforms
 
-| Platform  | Features | Support |
-|-----------|----------|---------|
-| ValueDefi | vSafe    |   ✅   |
+|    Platform    | Features | Support |
+|----------------|----------|---------|
+| ValueDefi      | vSafe    |   ✅   |
+| Fulcrum (BSC)  | Farm     |   ✅   |
 
 ## Support Exchanges
 
@@ -115,6 +122,28 @@ Options:
 ### `defy platform [ADDRESS]`
 ```
 Usage: defy platform [OPTIONS] ADDRESS
+
+Options:
+  -hsb, --hide-small-bal  `True` to hide small balance in wallet,
+                          default=false
+
+  -h, --help              Show this message and exit.
+```
+
+### `defy valuedefi [ADDRESS]`
+```
+Usage: defy valuedefi [OPTIONS] ADDRESS
+
+Options:
+  -hsb, --hide-small-bal  `True` to hide small balance in wallet,
+                          default=false
+
+  -h, --help              Show this message and exit.
+```
+
+### `defy fulcrum [ADDRESS]`
+```
+Usage: defy valuedefi [OPTIONS] ADDRESS
 
 Options:
   -hsb, --hide-small-bal  `True` to hide small balance in wallet,
