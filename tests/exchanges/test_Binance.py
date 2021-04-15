@@ -51,11 +51,16 @@ def test_getWallet(mocker, myValidBinance):
 
     mocker.patch("binance.client.Client.get_account", return_value=mock)
     mocker.patch("defy.PriceFinder.PriceFinder.getTokenPrice", return_value=1)
-    assert myValidBinance.getWallet() == [["ATOM", 1, 37.17447000, 37.17447000]]
+    assert myValidBinance.getWallet() == [
+        {"symbol": "ATOM", "price": 1, "bal": 37.17447000, "balInDollar": 37.17447000}
+    ]
 
 
 def test_displayWallet(capsys, myValidBinance):
-    wallet = [["Test1", 3.3333, 2.2222, 1.1111], ["Test2", 4.4444, 3.3333, 2.2222]]
+    wallet = [
+        {"symbol": "Test1", "price": 3.3333, "bal": 2.2222, "balInDollar": 1.1111},
+        {"symbol": "Test2", "price": 4.4444, "bal": 3.3333, "balInDollar": 2.2222},
+    ]
     expectedKeywords = [
         "Binance      Price    Balance    Balance ($)",
         "Test1         3.33     2.2222           1.11",

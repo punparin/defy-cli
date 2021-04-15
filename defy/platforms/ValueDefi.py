@@ -56,7 +56,15 @@ class ValueDefi:
                 if hideSmallBal and balInDollar < 1:
                     continue
 
-                platformFarms.append([pairSymbol, deposit, reward, bal, balInDollar])
+                platformFarms.append(
+                    {
+                        "pairSymbol": pairSymbol,
+                        "deposit": deposit,
+                        "reward": reward,
+                        "bal": bal,
+                        "balInDollar": balInDollar,
+                    }
+                )
 
         return platformFarms
 
@@ -81,10 +89,26 @@ class ValueDefi:
 
         return pricePerShare
 
+    def walletToTable(self, wallet):
+        tabulateWallet = []
+
+        for token in wallet:
+            tabulateWallet.append(
+                [
+                    token["pairSymbol"],
+                    token["deposit"],
+                    token["reward"],
+                    token["bal"],
+                    token["balInDollar"],
+                ]
+            )
+
+        return tabulateWallet
+
     def displayWallet(self, farms):
         print(
             tabulate(
-                farms,
+                self.walletToTable(farms),
                 self.headers,
                 floatfmt=(".f", ".4f", ".4f", ".2f", ".2f"),
                 tablefmt="simple",

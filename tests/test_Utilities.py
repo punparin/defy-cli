@@ -19,11 +19,21 @@ def test_formatBalance(myWeb3):
 
 def test_GetTotal():
     tabulateBalances = [
-        {"bal": [["Test1", 3, 2, 6], ["Test2", 4, 3, 12]], "type": "wallet"},
-        {"bal": [["Test1", 3, 2, 6], ["Test2", 4, 3, 12]], "type": "binance"},
-        {"bal": [["Test1", 3, 2, 6, 6], ["Test2", 4, 3, 12, 12]], "type": "valuedefi"},
+        [
+            {
+                "pairSymbol": "TEST1/TEST2",
+                "deposit": 1,
+                "reward": 1,
+                "bal": 1,
+                "balInDollar": 6,
+            }
+        ],
+        [
+            {"symbol": "TEST", "price": 4, "bal": 3, "balInDollar": 12},
+            {"symbol": "TEST", "price": 2, "bal": 1, "balInDollar": 2},
+        ],
     ]
-    assert Utilities.getTotal(tabulateBalances) == 54
+    assert Utilities.getTotal(tabulateBalances) == 20
 
 
 def test_displayTotal(capsys):

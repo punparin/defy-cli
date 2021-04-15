@@ -74,14 +74,31 @@ class Wallet:
                 if hideSmallBal and balInDollar < 1:
                     continue
 
-                wallet.append([symbol, price, bal, balInDollar])
+                wallet.append(
+                    {
+                        "symbol": symbol,
+                        "price": price,
+                        "bal": bal,
+                        "balInDollar": balInDollar,
+                    }
+                )
 
         return wallet
+
+    def walletToTable(self, wallet):
+        tabulateWallet = []
+
+        for token in wallet:
+            tabulateWallet.append(
+                [token["symbol"], token["price"], token["bal"], token["balInDollar"]]
+            )
+
+        return tabulateWallet
 
     def displayWallet(self, wallet):
         print(
             tabulate(
-                wallet,
+                self.walletToTable(wallet),
                 self.headers,
                 floatfmt=(".f", ".2f", ".4f", ".2f"),
                 tablefmt="simple",

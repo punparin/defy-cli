@@ -70,7 +70,14 @@ class Fulcrum:
                 if hideSmallBal and balInDollar < 1:
                     continue
 
-                platformFarms.append([symbol, deposit, reward, balInDollar])
+                platformFarms.append(
+                    {
+                        "symbol": symbol,
+                        "deposit": deposit,
+                        "reward": reward,
+                        "balInDollar": balInDollar,
+                    }
+                )
 
         return platformFarms
 
@@ -99,14 +106,30 @@ class Fulcrum:
         contract = self.web3.eth.contract(
             abi=self.fulcrum_abi, address=Web3.toChecksumAddress(self.contractAddress)
         )
+
         return contract.functions.getPendingBGOV(
             Web3.toChecksumAddress(walletAddress)
         ).call()
 
-    def displayWallet(self, farms):
+    def walletToTable(self, wallet):
+        tabulateWallet = []
+
+        for token in wallet:
+            tabulateWallet.append(
+                [
+                    token["symbol"],
+                    token["deposit"],
+                    token["reward"],
+                    token["balInDollar"],
+                ]
+            )
+
+        return tabulateWallet
+
+    def displayWallet(self, wallet):
         print(
             tabulate(
-                farms,
+                self.walletToTable(wallet),
                 self.headers,
                 floatfmt=(".f", ".4f", ".4f", ".2f", ".2f"),
                 tablefmt="simple",

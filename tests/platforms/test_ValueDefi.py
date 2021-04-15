@@ -80,12 +80,33 @@ def test_getWallet_with_not_hideSmallBalance(mocker, myValueDefi, walletAddress)
     responses.add(responses.GET, valuedefiEndpoint, json=mockReponse, status=200)
 
     assert myValueDefi.getWallet(walletAddress, False) == [
-        ["Warden-BUSD", 1, 0.5, 1.5, 30.0]
+        {
+            "pairSymbol": "Warden-BUSD",
+            "deposit": 1,
+            "reward": 0.5,
+            "bal": 1.5,
+            "balInDollar": 30.0,
+        }
     ]
 
 
 def test_displayWallet(capsys, myValueDefi):
-    farms = [["Test1", 1.11, 2.22, 3.33, 6.66], ["Test2", 5.55, 6.66, 12.21, 24.42]]
+    farms = [
+        {
+            "pairSymbol": "Test1",
+            "deposit": 1.11,
+            "reward": 2.22,
+            "bal": 3.33,
+            "balInDollar": 6.66,
+        },
+        {
+            "pairSymbol": "Test2",
+            "deposit": 5.55,
+            "reward": 6.66,
+            "bal": 12.21,
+            "balInDollar": 24.42,
+        },
+    ]
     expectedKeywords = [
         "ValueDefi      Deposit    Reward    Balance    Balance ($)",
         "Test1           1.1100    2.2200       3.33           6.66",

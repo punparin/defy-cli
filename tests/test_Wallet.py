@@ -92,13 +92,16 @@ def test_getWallet_with_not_hideSmallBalance(mocker, myWallet, walletAddress):
     mocker.patch("defy.PriceFinder.PriceFinder.getTokenPrice", return_value=0.1)
 
     assert myWallet.getWallet(walletAddress, False) == [
-        ["Warden", 0.1, 1, 0.1],
-        ["ADA", 0.1, 1, 0.1],
+        {"symbol": "Warden", "price": 0.1, "bal": 1, "balInDollar": 0.1},
+        {"symbol": "ADA", "price": 0.1, "bal": 1, "balInDollar": 0.1},
     ]
 
 
 def test_displayWallet(capsys, myWallet):
-    wallet = [["Test1", 3.3333, 2.2222, 1.1111], ["Test2", 4.4444, 3.3333, 2.2222]]
+    wallet = [
+        {"symbol": "Test1", "price": 3.3333, "bal": 2.2222, "balInDollar": 1.1111},
+        {"symbol": "Test2", "price": 4.4444, "bal": 3.3333, "balInDollar": 2.2222},
+    ]
     expectedKeywords = [
         "Wallet      Price    Balance    Balance ($)",
         "Test1        3.33     2.2222           1.11",

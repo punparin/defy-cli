@@ -4,17 +4,11 @@ class Utilities:
         return float(web3.fromWei(balance, "ether"))
 
     @staticmethod
-    def getTotal(tabulateBalances):
+    def getTotal(balances):
         total = 0
 
-        for rawBal in tabulateBalances:
-            bal = rawBal["bal"]
-            typeBal = rawBal["type"]
-
-            if typeBal in ["binance", "wallet", "fulcrum"]:
-                total += sum([x[3] for x in bal])
-            elif typeBal in ["valuedefi"]:
-                total += sum([x[4] for x in bal])
+        for bal in balances:
+            total += sum([x["balInDollar"] for x in bal])
 
         return total
 
