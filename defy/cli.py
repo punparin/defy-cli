@@ -2,8 +2,9 @@ import click
 from defy.Utilities import Utilities
 from defy.Wallet import Wallet
 from defy.PriceFinder import PriceFinder
-from defy.platforms.ValueDefi import ValueDefi
 from defy.exchanges.Binance import Binance
+from defy.platforms.ValueDefi import ValueDefi
+from defy.platforms.Fulcrum import Fulcrum
 
 __author__ = "Parin Kobboon"
 
@@ -11,8 +12,9 @@ __author__ = "Parin Kobboon"
 priceFinder = PriceFinder()
 
 defyWallet = Wallet(priceFinder)
-defyValueDefi = ValueDefi(priceFinder)
 defyBinance = Binance(priceFinder)
+defyValueDefi = ValueDefi(priceFinder)
+defyFulcrum = Fulcrum(priceFinder)
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
@@ -38,17 +40,20 @@ def all(address, hideSmallBal):
     walletBal = defyWallet.getWallet(address, hideSmallBal)
     binanceBal = defyBinance.getWallet(hideSmallBal)
     valueDefiBal = defyValueDefi.getWallet(address, hideSmallBal)
+    fulcrumBal = defyFulcrum.getWallet(address, hideSmallBal)
 
     total = Utilities.getTotal(
         [
             {"bal": walletBal, "type": "wallet"},
-            {"bal": valueDefiBal, "type": "valuedefi"},
             {"bal": binanceBal, "type": "binance"},
+            {"bal": valueDefiBal, "type": "valuedefi"},
+            {"bal": fulcrumBal, "type": "fulcrum"},
         ]
     )
 
     defyWallet.displayWallet(walletBal)
     defyBinance.displayWallet(binanceBal)
+    defyFulcrum.displayWallet(fulcrumBal)
     defyValueDefi.displayWallet(valueDefiBal)
 
     Utilities.displayTotal(total)
@@ -70,6 +75,7 @@ def wallet(address, hideSmallBal):
     total = Utilities.getTotal([{"bal": walletBal, "type": "wallet"}])
 
     defyWallet.displayWallet(walletBal)
+
     Utilities.displayTotal(total)
 
 
@@ -85,10 +91,18 @@ def wallet(address, hideSmallBal):
 )
 def platform(address, hideSmallBal):
     valueDefiBal = defyValueDefi.getWallet(address, hideSmallBal)
+    fulcrumBal = defyFulcrum.getWallet(address, hideSmallBal)
 
-    total = Utilities.getTotal([{"bal": valueDefiBal, "type": "valuedefi"}])
+    total = Utilities.getTotal(
+        [
+            {"bal": valueDefiBal, "type": "valuedefi"},
+            {"bal": fulcrumBal, "type": "fulcrum"},
+        ]
+    )
 
+    defyFulcrum.displayWallet(fulcrumBal)
     defyValueDefi.displayWallet(valueDefiBal)
+
     Utilities.displayTotal(total)
 
 
@@ -107,4 +121,5 @@ def exchange(hideSmallBal):
     total = Utilities.getTotal([{"bal": binanceBal, "type": "binance"}])
 
     defyBinance.displayWallet(binanceBal)
+
     Utilities.displayTotal(total)

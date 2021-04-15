@@ -11,7 +11,7 @@ class Utilities:
             bal = rawBal["bal"]
             typeBal = rawBal["type"]
 
-            if typeBal in ["binance", "wallet"]:
+            if typeBal in ["binance", "wallet", "fulcrum"]:
                 total += sum([x[3] for x in bal])
             elif typeBal in ["valuedefi"]:
                 total += sum([x[4] for x in bal])
