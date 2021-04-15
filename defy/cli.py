@@ -94,6 +94,46 @@ def platform(address, hideSmallBal):
     Utilities.displayTotal(total)
 
 
+@cli.command("valuedefi", short_help="Lookup to ValueDefi balance")
+@click.argument("address")
+@click.option(
+    "-hsb",
+    "--hide-small-bal",
+    "hideSmallBal",
+    is_flag=True,
+    default=False,
+    help="`True` to hide small balance in wallet, default=false",
+)
+def valuedefi(address, hideSmallBal):
+    valueDefiBal = defyValueDefi.getWallet(address, hideSmallBal)
+
+    total = Utilities.getTotal([valueDefiBal])
+
+    defyValueDefi.displayWallet(valueDefiBal)
+
+    Utilities.displayTotal(total)
+
+
+@cli.command("fulcrum", short_help="Lookup to Fulcrum balance")
+@click.argument("address")
+@click.option(
+    "-hsb",
+    "--hide-small-bal",
+    "hideSmallBal",
+    is_flag=True,
+    default=False,
+    help="`True` to hide small balance in wallet, default=false",
+)
+def fulcrum(address, hideSmallBal):
+    fulcrumBal = defyFulcrum.getWallet(address, hideSmallBal)
+
+    total = Utilities.getTotal([fulcrumBal])
+
+    defyFulcrum.displayWallet(fulcrumBal)
+
+    Utilities.displayTotal(total)
+
+
 @cli.command("exchange", short_help="Lookup to exchanges balance")
 @click.option(
     "-hsb",

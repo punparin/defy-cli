@@ -141,6 +141,61 @@ def test_platform(mocker, walletAddress):
         assert keyword in result.output
 
 
+def test_valuedefi(mocker, walletAddress):
+    runner = CliRunner()
+    expectedKeywords = [
+        "ValueDefi         Deposit    Reward    Balance    Balance ($)",
+        "TEST VALUEDEFI     1.1100    2.2200       3.33           6.66",
+        "Total Balance: $6.66",
+    ]
+
+    mocker.patch(
+        "defy.platforms.ValueDefi.ValueDefi.getWallet",
+        return_value=[
+            {
+                "pairSymbol": "TEST VALUEDEFI",
+                "deposit": 1.11,
+                "reward": 2.22,
+                "bal": 3.33,
+                "balInDollar": 6.66,
+            }
+        ],
+    )
+
+    result = runner.invoke(valuedefi, [walletAddress])  # noqa: F405
+
+    assert result.exit_code == 0
+    for keyword in expectedKeywords:
+        assert keyword in result.output
+
+
+def test_fulcrum(mocker, walletAddress):
+    runner = CliRunner()
+    expectedKeywords = [
+        "Fulcrum         Deposit    Reward (BGOV)    Balance ($)",
+        "TEST FULCRUM     2.2200           0.4000           7.02",
+        "Total Balance: $7.02",
+    ]
+
+    mocker.patch(
+        "defy.platforms.Fulcrum.Fulcrum.getWallet",
+        return_value=[
+            {
+                "symbol": "TEST FULCRUM",
+                "deposit": 2.22,
+                "reward": 0.4,
+                "balInDollar": 7.02,
+            }
+        ],
+    )
+
+    result = runner.invoke(fulcrum, [walletAddress])  # noqa: F405
+
+    assert result.exit_code == 0
+    for keyword in expectedKeywords:
+        assert keyword in result.output
+
+
 def test_exchange(mocker):
     runner = CliRunner()
     expectedKeywords = [
