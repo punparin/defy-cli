@@ -1,4 +1,6 @@
+from defy.Utilities import Utilities
 from configparser import ConfigParser
+from web3 import Web3
 import requests
 import json
 import os
@@ -10,27 +12,54 @@ class PriceFinder:
 
         self.config.read("./config.ini")
 
+        self.chainlinkPriceFeedAddress = "0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE"
+        self.networkProvider = self.config["DEFAULT"]["network_provider"]
         self.pancakePriceEndpoint = self.config["DEFAULT"]["pancake_price_endpoint"]
         self.oneInchChain56Endpoint = self.config["DEFAULT"][
             "oneinch_chain_56_endpoint"
         ]
         self.oneInchPriceEndpoint = self.config["DEFAULT"]["oneinch_price_endpoint"]
 
+        self.web3 = Web3(Web3.HTTPProvider(self.networkProvider))
+
         with open("alias_tokens.json", "r") as aliasTokens_definition:
             self.aliasTokens = json.load(aliasTokens_definition)
 
+        with open("abis/chainlink_abi.json", "r") as abi_definition:
+            self.chainlinkAbi = json.load(abi_definition)
+
         self.setupTokens()
+
+    def merge(self, dicts):
+        result = dict()
+
+        for x in dicts:
+            result.update(x)
+
+        return result
 
     def setupTokens(self):
         pancakeTokens = self.getPancakeTokens()
-        oneInchTokens = self.get1inchTokens(pancakeTokens["wbnb"])
+        oneInchTokens = self.get1inchTokens()
 
-        tokens = {**oneInchTokens, **pancakeTokens}
+        tokens = self.merge([pancakeTokens, oneInchTokens])
 
         self.tokens = self.getAliasTokens(tokens)
 
-    def get1inchTokens(self, bnbPrice):
+    def getBNBPrice(self):
+        contract = self.web3.eth.contract(
+            abi=self.chainlinkAbi,
+            address=Web3.toChecksumAddress(self.chainlinkPriceFeedAddress),
+        )
+        decimals = contract.functions.decimals().call()
+        latestRoundData = contract.functions.latestRoundData().call()
+        price = self.formatBalance(latestRoundData[1], decimals)
+
+        return price
+
+    def get1inchTokens(self):
         tokens = {}
+        bnbPrice = self.getBNBPrice()
 
         r = requests.get(self.oneInchPriceEndpoint)
         addrTokens = r.json()
@@ -46,6 +75,7 @@ class PriceFinder:
                 tokens[symbol] = self.formatBalance(price, decimals) * bnbPrice
             except KeyError:
                 pass
+        tokens["wbnb"] = bnbPrice
 
         formattedTokens = dict((k.lower(), v) for k, v in tokens.items())
 
