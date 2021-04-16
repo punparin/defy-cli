@@ -85,6 +85,8 @@ $ pip install defy
 * [`defy wallet [ADDRESS]`](#defy-wallet-address)
 * [`defy exchange`](#defy-exchange)
 * [`defy platform [ADDRESS]`](#defy-platform-address)
+* [`defy valuedefi [ADDRESS]`](#defy-valuedefi-address)
+* [`defy fulcrum [ADDRESS]`](#defy-fulcrum-address)
 
 ### `defy all [ADDRESS]`
 ```
