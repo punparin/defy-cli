@@ -4,21 +4,7 @@ from defy.platforms.ValueDefi import ValueDefi
 import json
 import responses
 from configparser import ConfigParser
-
-
-@pytest.fixture
-@responses.activate
-def myPriceFinder():
-    with open("tests/mocks/pricefinder_pancake_endpoint.json", "r") as mock_definition:
-        mockReponse = json.load(mock_definition)
-
-    config = ConfigParser()
-    config.read("./config.ini")
-    pancakeEndpoint = config["DEFAULT"]["pancake_endpoint"]
-
-    responses.add(responses.GET, pancakeEndpoint, json=mockReponse, status=200)
-
-    return PriceFinder()
+from tests.MockContext import *
 
 
 @pytest.fixture
@@ -46,7 +32,7 @@ def test_getTokenPricePerShare(myValueDefi, contractAddress):
 
 @responses.activate
 def test_getWallet(mocker, myValueDefi, walletAddress):
-    with open("tests/mocks/valuedefi_valuedefi_endpoint.json", "r") as mock_definition:
+    with open("tests/mocks/valuedefi_endpoint.json", "r") as mock_definition:
         mockReponse = json.load(mock_definition)
 
     config = ConfigParser()
@@ -65,7 +51,7 @@ def test_getWallet(mocker, myValueDefi, walletAddress):
 
 @responses.activate
 def test_getWallet_with_not_hideSmallBalance(mocker, myValueDefi, walletAddress):
-    with open("tests/mocks/valuedefi_valuedefi_endpoint.json", "r") as mock_definition:
+    with open("tests/mocks/valuedefi_endpoint.json", "r") as mock_definition:
         mockReponse = json.load(mock_definition)
 
     config = ConfigParser()

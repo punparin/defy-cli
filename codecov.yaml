@@ -21,3 +21,4 @@ comment:
 
 ignore:
   - "setup.py"
+  - "tests/mockContext.py"
