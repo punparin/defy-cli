@@ -30,8 +30,8 @@ class Fulcrum:
         with open("abis/fulcrum_abi.json", "r") as abi_definition:
             self.fulcrum_abi = json.load(abi_definition)
 
-        with open("abis/wallet_abi.json", "r") as abi_definition:
-            self.wallet_abi = json.load(abi_definition)
+        with open("abis/token_abi.json", "r") as abi_definition:
+            self.token_abi = json.load(abi_definition)
 
         with open("abis/itoken_abi.json", "r") as abi_definition:
             self.itoken_abi = json.load(abi_definition)
@@ -97,7 +97,7 @@ class Fulcrum:
 
     def getSymbol(self, contractAddress):
         contract = self.web3.eth.contract(
-            abi=self.wallet_abi, address=Web3.toChecksumAddress(contractAddress)
+            abi=self.token_abi, address=Web3.toChecksumAddress(contractAddress)
         )
 
         return contract.functions.symbol().call()

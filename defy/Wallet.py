@@ -23,7 +23,7 @@ class Wallet:
         self.web3 = Web3(Web3.HTTPProvider(self.networkProvider))
         self.priceFinder = priceFinder
 
-        with open("abis/wallet_abi.json", "r") as abi_definition:
+        with open("abis/token_abi.json", "r") as abi_definition:
             self.abi = json.load(abi_definition)
 
     def getTokenBalance(self, contractAddress, walletAddress):
