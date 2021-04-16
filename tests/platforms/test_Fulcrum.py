@@ -110,7 +110,7 @@ def test_getWallet(mocker, myFulcrum, walletAddress):
             [0, 0],
             [0, 0],
             [0, 0],
-            [0, 0],
+            [32650000000000000000, 4534765066782440000],
             [0, 0],
             [18780000000000000000, 4142765066782440000],
         ],
@@ -123,7 +123,7 @@ def test_getWallet(mocker, myFulcrum, walletAddress):
         "defy.platforms.Fulcrum.Fulcrum.getReward",
         return_value=[0, 0, 0, 0, 0, 0, 0, 0, 4137620697064440000],
     )
-    mocker.patch("defy.platforms.Fulcrum.Fulcrum.getSymbol", return_value="iLINK")
+    mocker.patch("defy.platforms.Fulcrum.Fulcrum.getSymbol", return_value="LINK")
     mocker.patch("defy.PriceFinder.PriceFinder.getTokenPrice", return_value=0.01)
 
     assert myFulcrum.getWallet(walletAddress) == []
@@ -198,7 +198,7 @@ def test_getWallet_with_not_hideSmallBalance(mocker, myFulcrum, walletAddress):
             [0, 0],
             [0, 0],
             [0, 0],
-            [0, 0],
+            [32650000000000000000, 4534765066782440000],
             [0, 0],
             [18780000000000000000, 4142765066782440000],
         ],
@@ -211,16 +211,17 @@ def test_getWallet_with_not_hideSmallBalance(mocker, myFulcrum, walletAddress):
         "defy.platforms.Fulcrum.Fulcrum.getReward",
         return_value=[0, 0, 0, 0, 0, 0, 0, 0, 4137620697064440000],
     )
-    mocker.patch("defy.platforms.Fulcrum.Fulcrum.getSymbol", return_value="iLINK")
+    mocker.patch("defy.platforms.Fulcrum.Fulcrum.getSymbol", return_value="LINK")
     mocker.patch("defy.PriceFinder.PriceFinder.getTokenPrice", return_value=0.1)
 
     assert myFulcrum.getWallet(walletAddress) == [
+        {"symbol": "LINK", "deposit": 32.65, "reward": 0.0, "balInDollar": 3.265},
         {
-            "symbol": "iLINK",
+            "symbol": "LINK",
             "deposit": 18.78,
             "reward": 4.13762069706444,
             "balInDollar": 2.291762069706444,
-        }
+        },
     ]
 
 
