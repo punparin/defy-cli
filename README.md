@@ -64,8 +64,8 @@ $ pip install defy
 
 |    Platform    | Features | Support |
 |----------------|----------|---------|
-| ValueDefi      | vSafe    |   ✅   |
-| Fulcrum (BSC)  | Farm     |   ✅   |
+| Fulcrum (BSC)  | Farm     |   ✅    |
+| ValueDefi      | vSafe    |   ✅    |
 
 ## Support Exchanges
 
