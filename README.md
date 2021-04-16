@@ -17,6 +17,10 @@ Binance      Price    Balance    Balance ($)
 ---------  -------  ---------  -------------
 ATOM         21.05    37.1745         782.70
 
+autofarm        Deposit    Reward (AUTO)    Balance ($)
+------------  ---------  ---------------  -------------
+WBNB-AUTO LP     2.5237           0.0022        7218.35
+
 Fulcrum      Deposit    Reward (BGOV)    Balance ($)
 ---------  ---------  ---------------  -------------
 LINK         18.7800           4.2001         759.39
@@ -25,7 +29,7 @@ ValueDefi      Deposit    Reward    Balance    Balance ($)
 -----------  ---------  --------  ---------  -------------
 Warden-BUSD   980.7301  140.9000    1121.63        1873.24
 
-Total Balance: $4436.36
+Total Balance: $11654.71
 ```
 
 Table of Contents
