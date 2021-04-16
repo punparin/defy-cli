@@ -5,6 +5,7 @@ from defy.PriceFinder import PriceFinder
 from defy.exchanges.Binance import Binance
 from defy.platforms.ValueDefi import ValueDefi
 from defy.platforms.Fulcrum import Fulcrum
+from defy.platforms.AutoFarm import AutoFarm
 
 __author__ = "Parin Kobboon"
 
@@ -15,6 +16,7 @@ defyWallet = Wallet(priceFinder)
 defyBinance = Binance(priceFinder)
 defyValueDefi = ValueDefi(priceFinder)
 defyFulcrum = Fulcrum(priceFinder)
+defyAutoFarm = AutoFarm(priceFinder)
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
@@ -41,11 +43,15 @@ def all(address, hideSmallBal):
     binanceBal = defyBinance.getWallet(hideSmallBal)
     valueDefiBal = defyValueDefi.getWallet(address, hideSmallBal)
     fulcrumBal = defyFulcrum.getWallet(address, hideSmallBal)
+    autoFarmBal = defyAutoFarm.getWallet(address, hideSmallBal)
 
-    total = Utilities.getTotal([walletBal, binanceBal, valueDefiBal, fulcrumBal])
+    total = Utilities.getTotal(
+        [walletBal, binanceBal, valueDefiBal, fulcrumBal, autoFarmBal]
+    )
 
     defyWallet.displayWallet(walletBal)
     defyBinance.displayWallet(binanceBal)
+    defyAutoFarm.displayWallet(autoFarmBal)
     defyFulcrum.displayWallet(fulcrumBal)
     defyValueDefi.displayWallet(valueDefiBal)
 
@@ -83,11 +89,13 @@ def wallet(address, hideSmallBal):
     help="`True` to hide small balance in wallet, default=false",
 )
 def platform(address, hideSmallBal):
-    valueDefiBal = defyValueDefi.getWallet(address, hideSmallBal)
+    autoFarmBal = defyAutoFarm.getWallet(address, hideSmallBal)
     fulcrumBal = defyFulcrum.getWallet(address, hideSmallBal)
+    valueDefiBal = defyValueDefi.getWallet(address, hideSmallBal)
 
-    total = Utilities.getTotal([valueDefiBal, fulcrumBal])
+    total = Utilities.getTotal([valueDefiBal, fulcrumBal, autoFarmBal])
 
+    defyAutoFarm.displayWallet(autoFarmBal)
     defyFulcrum.displayWallet(fulcrumBal)
     defyValueDefi.displayWallet(valueDefiBal)
 
@@ -130,6 +138,26 @@ def fulcrum(address, hideSmallBal):
     total = Utilities.getTotal([fulcrumBal])
 
     defyFulcrum.displayWallet(fulcrumBal)
+
+    Utilities.displayTotal(total)
+
+
+@cli.command("autofarm", short_help="Lookup to Fulcrum balance")
+@click.argument("address")
+@click.option(
+    "-hsb",
+    "--hide-small-bal",
+    "hideSmallBal",
+    is_flag=True,
+    default=False,
+    help="`True` to hide small balance in wallet, default=false",
+)
+def autofarm(address, hideSmallBal):
+    autoFarmBal = defyAutoFarm.getWallet(address, hideSmallBal)
+
+    total = Utilities.getTotal([autoFarmBal])
+
+    defyAutoFarm.displayWallet(autoFarmBal)
 
     Utilities.displayTotal(total)
 

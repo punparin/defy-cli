@@ -21,13 +21,15 @@ def test_all(mocker, walletAddress):
     expectedKeywords = [
         "Wallet         Price    Balance    Balance ($)",
         "TEST WALLET     0.10          1           0.10",
-        "ValueDefi         Deposit    Reward    Balance    Balance ($)",
-        "TEST VALUEDEFI     1.1100    2.2200       3.33           6.66",
-        "Fulcrum         Deposit    Reward (BGOV)    Balance ($)",
-        "TEST FULCRUM     2.2200           0.4000           7.02",
         "Binance          Price    Balance    Balance ($)",
         "TEST EXCHANGE        1    37.1745          37.17",
-        "Total Balance: $50.95",
+        "autofarm         Deposit    Reward (AUTO)    Balance ($)",
+        "TEST AUTOFARM     2.5237           0.0021        7354.72",
+        "Fulcrum         Deposit    Reward (BGOV)    Balance ($)",
+        "TEST FULCRUM     2.2200           0.4000           7.02",
+        "ValueDefi         Deposit    Reward    Balance    Balance ($)",
+        "TEST VALUEDEFI     1.1100    2.2200       3.33           6.66",
+        "Total Balance: $7405.67",
     ]
 
     mocker.patch(
@@ -48,14 +50,13 @@ def test_all(mocker, walletAddress):
         ],
     )
     mocker.patch(
-        "defy.platforms.ValueDefi.ValueDefi.getWallet",
+        "defy.platforms.AutoFarm.AutoFarm.getWallet",
         return_value=[
             {
-                "pairSymbol": "TEST VALUEDEFI",
-                "deposit": 1.11,
-                "reward": 2.22,
-                "bal": 3.33,
-                "balInDollar": 6.66,
+                "symbol": "TEST AUTOFARM",
+                "deposit": 2.5237,
+                "reward": 0.0021,
+                "balInDollar": 7354.72,
             }
         ],
     )
@@ -67,6 +68,18 @@ def test_all(mocker, walletAddress):
                 "deposit": 2.22,
                 "reward": 0.4,
                 "balInDollar": 7.02,
+            }
+        ],
+    )
+    mocker.patch(
+        "defy.platforms.ValueDefi.ValueDefi.getWallet",
+        return_value=[
+            {
+                "pairSymbol": "TEST VALUEDEFI",
+                "deposit": 1.11,
+                "reward": 2.22,
+                "bal": 3.33,
+                "balInDollar": 6.66,
             }
         ],
     )
@@ -103,22 +116,23 @@ def test_wallet(mocker, walletAddress):
 def test_platform(mocker, walletAddress):
     runner = CliRunner()
     expectedKeywords = [
+        "autofarm         Deposit    Reward (AUTO)    Balance ($)",
+        "TEST AUTOFARM     2.5237           0.0021        7354.72",
         "Fulcrum         Deposit    Reward (BGOV)    Balance ($)",
         "TEST FULCRUM     2.2200           0.4000           7.02",
         "ValueDefi         Deposit    Reward    Balance    Balance ($)",
         "TEST VALUEDEFI     1.1100    2.2200       3.33           6.66",
-        "Total Balance: $13.68",
+        "Total Balance: $7368.40",
     ]
 
     mocker.patch(
-        "defy.platforms.ValueDefi.ValueDefi.getWallet",
+        "defy.platforms.AutoFarm.AutoFarm.getWallet",
         return_value=[
             {
-                "pairSymbol": "TEST VALUEDEFI",
-                "deposit": 1.11,
-                "reward": 2.22,
-                "bal": 3.33,
-                "balInDollar": 6.66,
+                "symbol": "TEST AUTOFARM",
+                "deposit": 2.5237,
+                "reward": 0.0021,
+                "balInDollar": 7354.72,
             }
         ],
     )
@@ -130,6 +144,18 @@ def test_platform(mocker, walletAddress):
                 "deposit": 2.22,
                 "reward": 0.4,
                 "balInDollar": 7.02,
+            }
+        ],
+    )
+    mocker.patch(
+        "defy.platforms.ValueDefi.ValueDefi.getWallet",
+        return_value=[
+            {
+                "pairSymbol": "TEST VALUEDEFI",
+                "deposit": 1.11,
+                "reward": 2.22,
+                "bal": 3.33,
+                "balInDollar": 6.66,
             }
         ],
     )
@@ -190,6 +216,33 @@ def test_fulcrum(mocker, walletAddress):
     )
 
     result = runner.invoke(fulcrum, [walletAddress])  # noqa: F405
+
+    assert result.exit_code == 0
+    for keyword in expectedKeywords:
+        assert keyword in result.output
+
+
+def test_autofarm(mocker, walletAddress):
+    runner = CliRunner()
+    expectedKeywords = [
+        "autofarm         Deposit    Reward (AUTO)    Balance ($)",
+        "TEST AUTOFARM     2.5237           0.0021        7354.72",
+        "Total Balance: $7354.72",
+    ]
+
+    mocker.patch(
+        "defy.platforms.AutoFarm.AutoFarm.getWallet",
+        return_value=[
+            {
+                "symbol": "TEST AUTOFARM",
+                "deposit": 2.5237,
+                "reward": 0.0021,
+                "balInDollar": 7354.72,
+            }
+        ],
+    )
+
+    result = runner.invoke(autofarm, [walletAddress])  # noqa: F405
 
     assert result.exit_code == 0
     for keyword in expectedKeywords:
