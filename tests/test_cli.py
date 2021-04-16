@@ -21,15 +21,17 @@ def test_all(mocker, walletAddress):
     expectedKeywords = [
         "Wallet         Price    Balance    Balance ($)",
         "TEST WALLET     0.10          1           0.10",
-        "Binance          Price    Balance    Balance ($)",
-        "TEST EXCHANGE        1    37.1745          37.17",
+        "Binance         Price    Balance    Balance ($)",
+        "TEST BINANCE        1    37.1745          37.17",
+        "Binance Futures        Position     PNL    ROE %    Balance ($)",
+        "TEST BINANCEFUTURES        0.90  0.0300     3.33           0.93",
         "autofarm         Deposit    Reward (AUTO)    Balance ($)",
         "TEST AUTOFARM     2.5237           0.0021        7354.72",
         "Fulcrum         Deposit    Reward (BGOV)    Balance ($)",
         "TEST FULCRUM     2.2200           0.4000           7.02",
         "ValueDefi         Deposit    Reward    Balance    Balance ($)",
         "TEST VALUEDEFI     1.1100    2.2200       3.33           6.66",
-        "Total Balance: $7405.67",
+        "Total Balance: $7406.60",
     ]
 
     mocker.patch(
@@ -42,10 +44,22 @@ def test_all(mocker, walletAddress):
         "defy.exchanges.Binance.Binance.getWallet",
         return_value=[
             {
-                "symbol": "TEST EXCHANGE",
+                "symbol": "TEST BINANCE",
                 "price": 1,
                 "bal": 37.17447000,
                 "balInDollar": 37.17447000,
+            }
+        ],
+    )
+    mocker.patch(
+        "defy.exchanges.BinanceFutures.BinanceFutures.getWallet",
+        return_value=[
+            {
+                "symbol": "TEST BINANCEFUTURES",
+                "pos": 0.9,
+                "pnl": 0.03,
+                "roe": 3.3333333333333335,
+                "balInDollar": 0.93,
             }
         ],
     )
@@ -85,7 +99,7 @@ def test_all(mocker, walletAddress):
     )
 
     result = runner.invoke(all, [walletAddress])  # noqa: F405
-
+    print(result.output)
     assert result.exit_code == 0
     for keyword in expectedKeywords:
         assert keyword in result.output
@@ -252,24 +266,79 @@ def test_autofarm(mocker, walletAddress):
 def test_exchange(mocker):
     runner = CliRunner()
     expectedKeywords = [
-        "Binance          Price    Balance    Balance ($)",
-        "TEST EXCHANGE        1    37.1745          37.17",
-        "Total Balance: $37.17",
+        "Binance         Price    Balance    Balance ($)",
+        "TEST BINANCE        1    37.1745          37.17",
+        "Binance Futures        Position     PNL    ROE %    Balance ($)",
+        "TEST BINANCEFUTURES        0.90  0.0300     3.33           0.93",
+        "Total Balance: $38.10",
     ]
 
     mocker.patch(
         "defy.exchanges.Binance.Binance.getWallet",
         return_value=[
             {
-                "symbol": "TEST EXCHANGE",
+                "symbol": "TEST BINANCE",
                 "price": 1,
                 "bal": 37.17447000,
                 "balInDollar": 37.17447000,
             }
         ],
     )
+    mocker.patch(
+        "defy.exchanges.BinanceFutures.BinanceFutures.getWallet",
+        return_value=[
+            {
+                "symbol": "TEST BINANCEFUTURES",
+                "pos": 0.9,
+                "pnl": 0.03,
+                "roe": 3.3333333333333335,
+                "balInDollar": 0.93,
+            }
+        ],
+    )
 
     result = runner.invoke(exchange)  # noqa: F405
+
+    assert result.exit_code == 0
+    for keyword in expectedKeywords:
+        assert keyword in result.output
+
+
+def test_binance(mocker):
+    runner = CliRunner()
+    expectedKeywords = [
+        "Binance         Price    Balance    Balance ($)",
+        "TEST BINANCE        1    37.1745          37.17",
+        "Binance Futures        Position     PNL    ROE %    Balance ($)",
+        "TEST BINANCEFUTURES        0.90  0.0300     3.33           0.93",
+        "Total Balance: $38.10",
+    ]
+
+    mocker.patch(
+        "defy.exchanges.Binance.Binance.getWallet",
+        return_value=[
+            {
+                "symbol": "TEST BINANCE",
+                "price": 1,
+                "bal": 37.17447000,
+                "balInDollar": 37.17447000,
+            }
+        ],
+    )
+    mocker.patch(
+        "defy.exchanges.BinanceFutures.BinanceFutures.getWallet",
+        return_value=[
+            {
+                "symbol": "TEST BINANCEFUTURES",
+                "pos": 0.9,
+                "pnl": 0.03,
+                "roe": 3.3333333333333335,
+                "balInDollar": 0.93,
+            }
+        ],
+    )
+
+    result = runner.invoke(binance)  # noqa: F405
 
     assert result.exit_code == 0
     for keyword in expectedKeywords:

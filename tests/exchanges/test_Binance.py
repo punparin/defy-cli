@@ -23,6 +23,20 @@ def myInvalidBinance(myPriceFinder):
     return binance
 
 
+@pytest.fixture
+def myWallet():
+    return [
+        {
+            "symbol": "BTC",
+            "price": 0.9,
+            "bal": 1e-08,
+            "balInDollar": 9.000000000000001e-09,
+        },
+        {"symbol": "USDT", "price": 0.9, "bal": 1.06009357, "balInDollar": 0.954084213},
+        {"symbol": "ATOM", "price": 0.9, "bal": 37.17447, "balInDollar": 33.457023},
+    ]
+
+
 def test_isUsable_with_credentials(myValidBinance):
     assert myValidBinance.isUsable()
 
@@ -31,14 +45,82 @@ def test_isUsable_without_credentials(myInvalidBinance):
     assert not myInvalidBinance.isUsable()
 
 
+def test_existInWallet(myValidBinance, myWallet):
+    assert myValidBinance.existInWallet(myWallet, "BTC")
+    assert not myValidBinance.existInWallet(myWallet, "LINK")
+
+
+def test_getTokenInWallet(myValidBinance, myWallet):
+    assert myValidBinance.getTokenInWallet(myWallet, "BTC") is not None
+    assert myValidBinance.getTokenInWallet(myWallet, "LINK") is None
+
+
+def test_getFuturesWallet(mocker, myValidBinance):
+    with open("tests/mocks/binance_futures_account.json", "r") as mock_definition:
+        futuresAccountMock = json.load(mock_definition)
+
+    mocker.patch(
+        "binance.client.Client.futures_account", return_value=futuresAccountMock
+    )
+    mocker.patch("defy.PriceFinder.PriceFinder.getTokenPrice", return_value=0.9)
+
+    assert myValidBinance.getFuturesWallet() == []
+
+
+def test_getFuturesWallet_with_not_hideSmallBalance(mocker, myValidBinance):
+    with open("tests/mocks/binance_futures_account.json", "r") as mock_definition:
+        futuresAccountMock = json.load(mock_definition)
+
+    mocker.patch(
+        "binance.client.Client.futures_account", return_value=futuresAccountMock
+    )
+    mocker.patch("defy.PriceFinder.PriceFinder.getTokenPrice", return_value=0.9)
+
+    assert myValidBinance.getFuturesWallet(False) == [
+        {"symbol": "USDT", "price": 0.9, "bal": 1.06009357, "balInDollar": 0.954084213}
+    ]
+
+
 def test_getWallet(mocker, myValidBinance):
     with open("tests/mocks/binance_get_account.json", "r") as mock_definition:
-        mock = json.load(mock_definition)
+        spotAccountMock = json.load(mock_definition)
 
-    mocker.patch("binance.client.Client.get_account", return_value=mock)
-    mocker.patch("defy.PriceFinder.PriceFinder.getTokenPrice", return_value=1)
+    with open("tests/mocks/binance_futures_account.json", "r") as mock_definition:
+        futuresAccountMock = json.load(mock_definition)
+
+    mocker.patch("binance.client.Client.get_account", return_value=spotAccountMock)
+    mocker.patch(
+        "binance.client.Client.futures_account", return_value=futuresAccountMock
+    )
+    mocker.patch("defy.PriceFinder.PriceFinder.getTokenPrice", return_value=0.9)
+
     assert myValidBinance.getWallet() == [
-        {"symbol": "ATOM", "price": 1, "bal": 37.17447000, "balInDollar": 37.17447000}
+        {"symbol": "ATOM", "price": 0.9, "bal": 37.17447, "balInDollar": 33.457023}
+    ]
+
+
+def test_getWallet_with_not_hideSmallBalance(mocker, myValidBinance):
+    with open("tests/mocks/binance_get_account.json", "r") as mock_definition:
+        spotAccountMock = json.load(mock_definition)
+
+    with open("tests/mocks/binance_futures_account.json", "r") as mock_definition:
+        futuresAccountMock = json.load(mock_definition)
+
+    mocker.patch("binance.client.Client.get_account", return_value=spotAccountMock)
+    mocker.patch(
+        "binance.client.Client.futures_account", return_value=futuresAccountMock
+    )
+    mocker.patch("defy.PriceFinder.PriceFinder.getTokenPrice", return_value=0.9)
+
+    assert myValidBinance.getWallet(False) == [
+        {
+            "symbol": "BTC",
+            "price": 0.9,
+            "bal": 1e-08,
+            "balInDollar": 9.000000000000001e-09,
+        },
+        {"symbol": "USDT", "price": 0.9, "bal": 1.06009357, "balInDollar": 0.954084213},
+        {"symbol": "ATOM", "price": 0.9, "bal": 37.17447, "balInDollar": 33.457023},
     ]
 
 

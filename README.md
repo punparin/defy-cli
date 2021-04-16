@@ -17,6 +17,10 @@ Binance      Price    Balance    Balance ($)
 ---------  -------  ---------  -------------
 ATOM         21.05    37.1745         782.70
 
+Binance Futures      Position       PNL    ROE %    Balance ($)
+-----------------  ----------  --------  -------  -------------
+LUNAUSDT               148.25   32.8795    22.18         181.13
+
 autofarm        Deposit    Reward (AUTO)    Balance ($)
 ------------  ---------  ---------------  -------------
 WBNB-AUTO LP     2.5237           0.0022        7218.35
@@ -29,7 +33,7 @@ ValueDefi      Deposit    Reward    Balance    Balance ($)
 -----------  ---------  --------  ---------  -------------
 Warden-BUSD   980.7301  140.9000    1121.63        1873.24
 
-Total Balance: $11654.71
+Total Balance: $11835.84
 ```
 
 Table of Contents
@@ -46,6 +50,7 @@ Table of Contents
          * [defy all [ADDRESS]](#defy-all-address)
          * [defy wallet [ADDRESS]](#defy-wallet-address)
          * [defy exchange](#defy-exchange)
+         * [defy binance](#defy-binance)
          * [defy platform [ADDRESS]](#defy-platform-address)
          * [defy valuedefi [ADDRESS]](#defy-valuedefi-address)
          * [defy fulcrum [ADDRESS]](#defy-fulcrum-address)
@@ -67,17 +72,18 @@ $ pip install defy
 
 ## Support Platforms
 
-|    Platform    | Features | Support |
+| Platform       | Features | Support |
 |----------------|----------|---------|
-| autofarm       | -        |   ✅    |
+| autofarm       | Vaults   |   ✅    |
 | Fulcrum (BSC)  | Farm     |   ✅    |
 | ValueDefi      | vSafe    |   ✅    |
 
 ## Support Exchanges
 
-| Exchange  | Features | Support |
-|-----------|----------|---------|
-| Binance   | -        |   ✅    |
+| Exchange  | Features          | Support |
+|-----------|-------------------|---------|
+| Binance   | Fiat and Spot     |   ✅    |
+|           | USDⓈ-M Futures   |   ✅    |
 
 ## Support Networks
 
@@ -90,6 +96,7 @@ $ pip install defy
 * [`defy all [ADDRESS]`](#defy-all-address)
 * [`defy wallet [ADDRESS]`](#defy-wallet-address)
 * [`defy exchange`](#defy-exchange)
+* [`defy binance`](#defy-binance)
 * [`defy platform [ADDRESS]`](#defy-platform-address)
 * [`defy valuedefi [ADDRESS]`](#defy-valuedefi-address)
 * [`defy fulcrum [ADDRESS]`](#defy-fulcrum-address)
@@ -120,6 +127,17 @@ Options:
 ### `defy exchange`
 ```
 Usage: defy exchange [OPTIONS]
+
+Options:
+  -hsb, --hide-small-bal  `True` to hide small balance in wallet,
+                          default=false
+
+  -h, --help              Show this message and exit.
+```
+
+### `defy binance`
+```
+Usage: defy binance [OPTIONS]
 
 Options:
   -hsb, --hide-small-bal  `True` to hide small balance in wallet,

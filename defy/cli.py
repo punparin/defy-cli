@@ -3,6 +3,7 @@ from defy.Utilities import Utilities
 from defy.Wallet import Wallet
 from defy.PriceFinder import PriceFinder
 from defy.exchanges.Binance import Binance
+from defy.exchanges.BinanceFutures import BinanceFutures
 from defy.platforms.ValueDefi import ValueDefi
 from defy.platforms.Fulcrum import Fulcrum
 from defy.platforms.AutoFarm import AutoFarm
@@ -14,6 +15,7 @@ priceFinder = PriceFinder()
 
 defyWallet = Wallet(priceFinder)
 defyBinance = Binance(priceFinder)
+defyBinanceFutures = BinanceFutures(priceFinder)
 defyValueDefi = ValueDefi(priceFinder)
 defyFulcrum = Fulcrum(priceFinder)
 defyAutoFarm = AutoFarm(priceFinder)
@@ -41,16 +43,25 @@ def cli():
 def all(address, hideSmallBal):
     walletBal = defyWallet.getWallet(address, hideSmallBal)
     binanceBal = defyBinance.getWallet(hideSmallBal)
+    binanceFuturesBal = defyBinanceFutures.getWallet(hideSmallBal)
     valueDefiBal = defyValueDefi.getWallet(address, hideSmallBal)
     fulcrumBal = defyFulcrum.getWallet(address, hideSmallBal)
     autoFarmBal = defyAutoFarm.getWallet(address, hideSmallBal)
 
     total = Utilities.getTotal(
-        [walletBal, binanceBal, valueDefiBal, fulcrumBal, autoFarmBal]
+        [
+            walletBal,
+            binanceBal,
+            binanceFuturesBal,
+            valueDefiBal,
+            fulcrumBal,
+            autoFarmBal,
+        ]
     )
 
     defyWallet.displayWallet(walletBal)
     defyBinance.displayWallet(binanceBal)
+    defyBinanceFutures.displayWallet(binanceFuturesBal)
     defyAutoFarm.displayWallet(autoFarmBal)
     defyFulcrum.displayWallet(fulcrumBal)
     defyValueDefi.displayWallet(valueDefiBal)
@@ -173,9 +184,32 @@ def autofarm(address, hideSmallBal):
 )
 def exchange(hideSmallBal):
     binanceBal = defyBinance.getWallet(hideSmallBal)
+    binanceFuturesBal = defyBinanceFutures.getWallet(hideSmallBal)
 
-    total = Utilities.getTotal([binanceBal])
+    total = Utilities.getTotal([binanceBal, binanceFuturesBal])
 
     defyBinance.displayWallet(binanceBal)
+    defyBinanceFutures.displayWallet(binanceFuturesBal)
+
+    Utilities.displayTotal(total)
+
+
+@cli.command("binance", short_help="Lookup to exchanges balance")
+@click.option(
+    "-hsb",
+    "--hide-small-bal",
+    "hideSmallBal",
+    is_flag=True,
+    default=False,
+    help="`True` to hide small balance in wallet, default=false",
+)
+def binance(hideSmallBal):
+    binanceBal = defyBinance.getWallet(hideSmallBal)
+    binanceFuturesBal = defyBinanceFutures.getWallet(hideSmallBal)
+
+    total = Utilities.getTotal([binanceBal, binanceFuturesBal])
+
+    defyBinance.displayWallet(binanceBal)
+    defyBinanceFutures.displayWallet(binanceFuturesBal)
 
     Utilities.displayTotal(total)
