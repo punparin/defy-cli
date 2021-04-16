@@ -28,19 +28,19 @@ class Fulcrum:
         self.priceFinder = priceFinder
 
         with open("abis/fulcrum_abi.json", "r") as abi_definition:
-            self.fulcrum_abi = json.load(abi_definition)
+            self.fulcrumAbi = json.load(abi_definition)
 
         with open("abis/token_abi.json", "r") as abi_definition:
-            self.token_abi = json.load(abi_definition)
+            self.tokenAbi = json.load(abi_definition)
 
         with open("abis/itoken_abi.json", "r") as abi_definition:
-            self.itoken_abi = json.load(abi_definition)
+            self.itokenAbi = json.load(abi_definition)
 
     def getWallet(self, walletAddress, hideSmallBal=True):
         platformFarms = []
 
         contract = self.web3.eth.contract(
-            abi=self.fulcrum_abi, address=Web3.toChecksumAddress(self.contractAddress)
+            abi=self.fulcrumAbi, address=Web3.toChecksumAddress(self.contractAddress)
         )
         tokens = contract.functions.getOptimisedUserInfos(
             Web3.toChecksumAddress(walletAddress)
@@ -83,28 +83,28 @@ class Fulcrum:
 
     def getPoolInfos(self):
         contract = self.web3.eth.contract(
-            abi=self.fulcrum_abi, address=Web3.toChecksumAddress(self.contractAddress)
+            abi=self.fulcrumAbi, address=Web3.toChecksumAddress(self.contractAddress)
         )
 
         return contract.functions.getPoolInfos().call()
 
     def getLoanTokenAddress(self, contractAddress):
         contract = self.web3.eth.contract(
-            abi=self.itoken_abi, address=Web3.toChecksumAddress(contractAddress)
+            abi=self.itokenAbi, address=Web3.toChecksumAddress(contractAddress)
         )
 
         return contract.functions.loanTokenAddress().call()
 
     def getSymbol(self, contractAddress):
         contract = self.web3.eth.contract(
-            abi=self.token_abi, address=Web3.toChecksumAddress(contractAddress)
+            abi=self.tokenAbi, address=Web3.toChecksumAddress(contractAddress)
         )
 
         return contract.functions.symbol().call()
 
     def getReward(self, walletAddress):
         contract = self.web3.eth.contract(
-            abi=self.fulcrum_abi, address=Web3.toChecksumAddress(self.contractAddress)
+            abi=self.fulcrumAbi, address=Web3.toChecksumAddress(self.contractAddress)
         )
 
         return contract.functions.getPendingBGOV(

@@ -29,7 +29,7 @@ class ValueDefi:
         self.priceFinder = priceFinder
 
         with open("abis/valuedefi_abi.json", "r") as abi_definition:
-            self.abi = json.load(abi_definition)
+            self.valueDefiAbi = json.load(abi_definition)
 
     def getWallet(self, walletAddress, hideSmallBal=True):
         platformFarms = []
@@ -70,7 +70,7 @@ class ValueDefi:
 
     def getTokenBalance(self, contractAddress, walletAddress):
         contract = self.web3.eth.contract(
-            abi=self.abi, address=Web3.toChecksumAddress(contractAddress)
+            abi=self.valueDefiAbi, address=Web3.toChecksumAddress(contractAddress)
         )
         bal = Utilities.formatBalance(
             self.web3,
@@ -81,7 +81,7 @@ class ValueDefi:
 
     def getTokenPricePerShare(self, contractAddress):
         contract = self.web3.eth.contract(
-            abi=self.abi, address=Web3.toChecksumAddress(contractAddress)
+            abi=self.valueDefiAbi, address=Web3.toChecksumAddress(contractAddress)
         )
         pricePerShare = Utilities.formatBalance(
             self.web3, contract.functions.getPricePerFullShare().call()

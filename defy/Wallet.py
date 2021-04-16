@@ -24,11 +24,11 @@ class Wallet:
         self.priceFinder = priceFinder
 
         with open("abis/token_abi.json", "r") as abi_definition:
-            self.abi = json.load(abi_definition)
+            self.tokenAbi = json.load(abi_definition)
 
     def getTokenBalance(self, contractAddress, walletAddress):
         contract = self.web3.eth.contract(
-            abi=self.abi, address=Web3.toChecksumAddress(contractAddress)
+            abi=self.tokenAbi, address=Web3.toChecksumAddress(contractAddress)
         )
 
         return Utilities.formatBalance(
@@ -37,14 +37,14 @@ class Wallet:
 
     def getTokenName(self, contractAddress):
         contract = self.web3.eth.contract(
-            abi=self.abi, address=Web3.toChecksumAddress(contractAddress)
+            abi=self.tokenAbi, address=Web3.toChecksumAddress(contractAddress)
         )
 
         return contract.functions.name().call()
 
     def getSymbol(self, contractAddress):
         contract = self.web3.eth.contract(
-            abi=self.abi, address=Web3.toChecksumAddress(contractAddress)
+            abi=self.tokenAbi, address=Web3.toChecksumAddress(contractAddress)
         )
 
         return contract.functions.symbol().call()
