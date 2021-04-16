@@ -45,6 +45,7 @@ Table of Contents
          * [defy platform [ADDRESS]](#defy-platform-address)
          * [defy valuedefi [ADDRESS]](#defy-valuedefi-address)
          * [defy fulcrum [ADDRESS]](#defy-fulcrum-address)
+         * [defy autofarm [ADDRESS]](#defy-autofarm-address)
       * [Known Issues](#known-issues)
          * [Timestamp for this request was 1000ms ahead of the server's time](#timestamp-for-this-request-was-1000ms-ahead-of-the-servers-time)
 
@@ -64,6 +65,7 @@ $ pip install defy
 
 |    Platform    | Features | Support |
 |----------------|----------|---------|
+| autofarm       | -        |   ✅    |
 | Fulcrum (BSC)  | Farm     |   ✅    |
 | ValueDefi      | vSafe    |   ✅    |
 
@@ -87,6 +89,7 @@ $ pip install defy
 * [`defy platform [ADDRESS]`](#defy-platform-address)
 * [`defy valuedefi [ADDRESS]`](#defy-valuedefi-address)
 * [`defy fulcrum [ADDRESS]`](#defy-fulcrum-address)
+* [`defy autofarm [ADDRESS]`](#defy-autofarm-address)
 
 ### `defy all [ADDRESS]`
 ```
@@ -145,7 +148,18 @@ Options:
 
 ### `defy fulcrum [ADDRESS]`
 ```
-Usage: defy valuedefi [OPTIONS] ADDRESS
+Usage: defy fulcrum [OPTIONS] ADDRESS
+
+Options:
+  -hsb, --hide-small-bal  `True` to hide small balance in wallet,
+                          default=false
+
+  -h, --help              Show this message and exit.
+```
+
+### `defy autofarm [ADDRESS]`
+```
+Usage: defy autofarm [OPTIONS] ADDRESS
 
 Options:
   -hsb, --hide-small-bal  `True` to hide small balance in wallet,
