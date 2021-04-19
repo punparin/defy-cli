@@ -59,15 +59,37 @@ class Wallet:
 
         return transactions
 
+    def getBNBBalance(self, walletAddress, hideSmallBal=True):
+        bal = Utilities.formatBalance(
+            self.web3, self.web3.eth.get_balance(walletAddress)
+        )
+
+        if bal > 0:
+            price = self.priceFinder.getTokenPrice("BNB")
+            balInDollar = bal * price
+
+            if not (hideSmallBal and balInDollar < 1):
+                return [
+                    {
+                        "symbol": "BNB",
+                        "price": price,
+                        "bal": bal,
+                        "balInDollar": balInDollar,
+                    }
+                ]
+
+        return []
+
     def getWallet(self, walletAddress, hideSmallBal=True):
         wallet = []
         tokens = self.getWalletTokens(walletAddress)
         walletAddress = Web3.toChecksumAddress(walletAddress)
+        bnbBalance = self.getBNBBalance(walletAddress, hideSmallBal)
 
         for symbol in tokens:
             bal = self.getTokenBalance(tokens[symbol], walletAddress)
 
-            if bal != 0:
+            if bal > 0:
                 price = self.priceFinder.getTokenPrice(symbol)
                 balInDollar = bal * price
 
@@ -83,7 +105,7 @@ class Wallet:
                     }
                 )
 
-        return wallet
+        return wallet + bnbBalance
 
     def walletToTable(self, wallet):
         tabulateWallet = []

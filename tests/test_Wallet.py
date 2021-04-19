@@ -1,4 +1,5 @@
 import pytest
+from web3 import Web3
 from defy.PriceFinder import PriceFinder
 from defy.Wallet import Wallet
 import json
@@ -52,6 +53,22 @@ def test_getWalletTokens(mocker, myWallet, walletAddress):
     }
 
 
+def test_getBNBBalance(mocker, myWallet, walletAddress):
+    assert myWallet.getBNBBalance(walletAddress) == []
+
+
+def test_getBNBBalance_with_not_hideSmallBalance(mocker, myWallet, walletAddress):
+    mocker.patch("web3.eth.Eth.get_balance", return_value=495871491875495739392)
+    assert myWallet.getBNBBalance(walletAddress) == [
+        {
+            "bal": 495.87149187549574,
+            "balInDollar": 275481.40731143166,
+            "price": 555.55,
+            "symbol": "BNB",
+        }
+    ]
+
+
 def test_getWallet(mocker, myWallet, walletAddress):
     mocker.patch(
         "defy.Wallet.Wallet.getWalletTokens",
@@ -60,6 +77,7 @@ def test_getWallet(mocker, myWallet, walletAddress):
             "ADA": "0x3ee2200efb3400fabb9aacf31297cbdd1d435d47",
         },
     )
+    mocker.patch("defy.Wallet.Wallet.getBNBBalance", return_value=[])
     mocker.patch("defy.Wallet.Wallet.getTokenBalance", return_value=1)
     mocker.patch("defy.PriceFinder.PriceFinder.getTokenPrice", return_value=0.1)
 
@@ -74,12 +92,17 @@ def test_getWallet_with_not_hideSmallBalance(mocker, myWallet, walletAddress):
             "ADA": "0x3ee2200efb3400fabb9aacf31297cbdd1d435d47",
         },
     )
+    mocker.patch(
+        "defy.Wallet.Wallet.getBNBBalance",
+        return_value=[{"symbol": "BNB", "price": 1, "bal": 0.9, "balInDollar": 0.9}],
+    )
     mocker.patch("defy.Wallet.Wallet.getTokenBalance", return_value=1)
     mocker.patch("defy.PriceFinder.PriceFinder.getTokenPrice", return_value=0.1)
 
     assert myWallet.getWallet(walletAddress, False) == [
         {"symbol": "Warden", "price": 0.1, "bal": 1, "balInDollar": 0.1},
         {"symbol": "ADA", "price": 0.1, "bal": 1, "balInDollar": 0.1},
+        {"symbol": "BNB", "price": 1, "bal": 0.9, "balInDollar": 0.9},
     ]
 
 
