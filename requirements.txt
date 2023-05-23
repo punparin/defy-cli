@@ -1,6 +1,6 @@
 click==7.1.2
 configparser==5.0.2
-requests==2.25.1
+requests==2.31.0
 tabulate==0.8.9
 web3==5.17.0
 python-binance==0.7.9
